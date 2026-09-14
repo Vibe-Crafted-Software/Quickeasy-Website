@@ -312,6 +312,9 @@ test('H published prices', () => {
    I. SEO migration (robots, sitemap, canonicals, JSON-LD, redirect map)
    ========================================================================= */
 const indexPages = pages.filter((p) => p.rel.endsWith('index.html'));
+const isNoindex = (html) => /<meta\s+name="robots"\s+content="[^"]*noindex/i.test(html);
+// Live but deliberately unlisted: the /search/ results pages are noindex.
+const sitemapPages = indexPages.filter((p) => !isNoindex(p.html));
 const pageUrl = (r) => '/' + r.replace(/index\.html$/, ''); // 'blog/index.html' -> '/blog/'
 const canonPath = (html) => {
   const m = html.match(/<link rel="canonical" href="https:\/\/quickeasysoftware\.com([^"]*)"/);
@@ -342,9 +345,12 @@ test('I2 sitemap.xml: valid, complete, no redirect sources', () => {
   }
   for (const l of locs) { if (!resolves(l)) errs.push('sitemap loc does not resolve: ' + l);
     if (sources.has(l)) errs.push('sitemap lists a redirect source: ' + l); }
-  const want = new Set(indexPages.map((p) => pageUrl(p.rel)));
-  if (locs.length !== want.size) errs.push(`sitemap has ${locs.length} locs, ${want.size} live pages`);
+  const want = new Set(sitemapPages.map((p) => pageUrl(p.rel)));
+  if (locs.length !== want.size) errs.push(`sitemap has ${locs.length} locs, ${want.size} indexable pages`);
   for (const u of want) if (!locs.includes(u)) errs.push('live page missing from sitemap: ' + u);
+  for (const p of indexPages) {
+    if (isNoindex(p.html) && locs.includes(pageUrl(p.rel))) errs.push('sitemap lists a noindex page: ' + pageUrl(p.rel));
+  }
   return errs;
 });
 
@@ -592,6 +598,78 @@ test('M5 seo/redirects.json is in sync with redirect-map.csv', () => {
     if (kvs[from] === undefined) errs.push(`${from} missing from redirects.json — regenerate it`);
     else if (kvs[from] !== to) errs.push(`${from} -> ${kvs[from]} in redirects.json, ${to} in the csv`);
   }
+  return errs;
+});
+
+/* =========================================================================
+   N. Site search (Pagefind)
+
+   The index itself is build product — deploy.mjs rebuilds ./pagefind/ on every
+   deploy — so these check the wiring that has to be right in the repo, not the
+   generated bundle, which is absent on a fresh checkout.
+   ========================================================================= */
+const SEARCH_PAGES = ['search/index.html', 'th/search/index.html'];
+
+test('N1 both search pages exist, are noindex, and carry the results markup', () =>
+  SEARCH_PAGES.flatMap((r) => {
+    const p = get(r);
+    if (!p) return ['missing: ' + r];
+    const errs = [];
+    if (!isNoindex(p.html)) errs.push('not noindex: ' + r);
+    if (!/id="search-form"/.test(p.html)) errs.push('no search form: ' + r);
+    if (!/id="search-results"/.test(p.html)) errs.push('no results container: ' + r);
+    if (!/id="search-strings"/.test(p.html)) errs.push('no strings block: ' + r);
+    if (!/src="\/assets\/js\/search-page\.js"/.test(p.html)) errs.push('search-page.js not loaded: ' + r);
+    try { JSON.parse(/id="search-strings">([\s\S]*?)<\/script>/.exec(p.html)[1]); }
+    catch (e) { errs.push('search strings are not valid JSON: ' + r); }
+    return errs;
+  }));
+
+test('N2 every page has the header search form, pointing at its own language', () =>
+  navPages.flatMap((p) => {
+    const m = /<form class="site-search" action="([^"]*)"/.exec(p.html);
+    if (!m) return ['no header search form: ' + p.rel];
+    const want = p.rel.startsWith('th/') ? '/th/search/' : '/search/';
+    return m[1] === want ? [] : [`search form posts to ${m[1]}, expected ${want} (${p.rel})`];
+  }));
+
+test('N3 data-pagefind-body marks the indexable pages only', () => {
+  const errs = [];
+  for (const p of pages) {
+    const marked = /<main[^>]*data-pagefind-body/.test(p.html);
+    // Pagefind indexes only pages carrying the marker, so noindex pages must not.
+    const shouldMark = !isNoindex(p.html);
+    if (shouldMark && !marked) errs.push('not indexable by Pagefind: ' + p.rel);
+    if (!shouldMark && marked) errs.push('noindex page would be indexed by Pagefind: ' + p.rel);
+  }
+  return errs;
+});
+
+test('N4 search-page.js queries Pagefind; main.css and main.js carry the pieces', () => {
+  const errs = [];
+  const js = path.join(ROOT, 'assets/js/search-page.js');
+  if (!fs.existsSync(js)) return ['assets/js/search-page.js missing'];
+  const src = read(js);
+  if (!src.includes("import('/pagefind/pagefind.js')")) errs.push('search-page.js does not import the Pagefind index');
+  const css = read(path.join(ROOT, 'assets/css/main.css'));
+  for (const c of ['.site-search', '.search-form', '.search-results', '.search-result', '.visually-hidden'])
+    if (!css.includes(c)) errs.push('main.css missing ' + c);
+  if (!read(path.join(ROOT, 'assets/js/main.js')).includes('site-search-input'))
+    errs.push('main.js has no "/" search shortcut');
+  return errs;
+});
+
+test('N5 deploy rebuilds the index and the bundle is not excluded from the sync', () => {
+  const errs = [];
+  const dep = read(path.join(ROOT, 'deploy.mjs'));
+  if (!/PAGEFIND_CMD/.test(dep)) errs.push('deploy.mjs does not build a Pagefind index');
+  if (!/pagefind@\d+\.\d+\.\d+/.test(dep)) errs.push('the pagefind version is not pinned in deploy.mjs');
+  const cfg = JSON.parse(read(path.join(ROOT, 'deploy.config.json')));
+  for (const e of cfg.exclude || [])
+    if (/^\/?pagefind/.test(e)) errs.push('deploy.config.json excludes the pagefind bundle: ' + e);
+  const ignore = path.join(ROOT, '.gitignore');
+  if (!fs.existsSync(ignore) || !/^\/?pagefind\/?$/m.test(read(ignore)))
+    errs.push('.gitignore does not ignore the generated /pagefind/ bundle');
   return errs;
 });
 

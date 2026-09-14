@@ -6,10 +6,11 @@
    Reads deploy.config.json and does, aborting on the first failure:
      1. npm test                       — never deploy a red suite
      2. regenerate the SEO artifacts   — and refuse if they were stale
-     3. sync assets, by cache-control group
-     4. sync pages and root files, honouring the exclude list
-     5. invalidate CloudFront          — skipped until a distribution exists
-     6. verify a few URLs actually return 200
+     3. build the Pagefind search index — rebuilt so it matches what ships
+     4. sync assets, by cache-control group
+     5. sync pages and root files, honouring the exclude list
+     6. invalidate CloudFront          — skipped until a distribution exists
+     7. verify a few URLs actually return 200
 
    --dry-run  dry-runs every AWS call and changes nothing.
    ========================================================================= */
@@ -28,6 +29,10 @@ const DRY = process.argv.includes('--dry-run');
 const REFRESH = process.argv.includes('--refresh-headers');
 const cfg = JSON.parse(fs.readFileSync(path.join(ROOT, 'deploy.config.json'), 'utf8'));
 const { bucket, region, cloudfrontDistributionId: distId, url: siteUrl } = cfg.aws;
+// Pagefind is a build tool, not a site dependency, so it stays out of package.json
+// and runs through npx. Pinned: an unpinned index bundle can drift out of step with
+// the pagefind.js the search page imports. Override in deploy.config.json.
+const PAGEFIND_CMD = cfg.search?.command ?? 'npx -y pagefind@1.5.2 --site .';
 
 let step = 0;
 const say = (msg) => console.log(`\n[${++step}] ${msg}`);
@@ -82,7 +87,27 @@ if (stale.length) {
 }
 ok('sitemap, redirect map and KVS map were already up to date');
 
-/* ---------- 3. assets ---------- */
+/* ---------- 3. search index ----------
+   Pagefind reads the finished HTML and writes ./pagefind/. It runs on every
+   deploy so the index always matches what is about to be uploaded; the output
+   is build product, so it is gitignored rather than committed. Only pages
+   carrying data-pagefind-body are indexed, which is what keeps 404.html, the
+   /search/ pages themselves and all the nav/footer chrome out of the results. */
+say('Building the Pagefind search index');
+if (DRY) {
+  console.log(`    – would run: ${PAGEFIND_CMD}`);
+} else {
+  fs.rmSync(path.join(ROOT, 'pagefind'), { recursive: true, force: true });
+  const out = run(PAGEFIND_CMD, { capture: true });
+  const pages = (out.match(/Indexed (\d+) pages/) || [])[1];
+  const words = (out.match(/Indexed (\d+) words/) || [])[1];
+  if (!fs.existsSync(path.join(ROOT, 'pagefind', 'pagefind.js'))) {
+    die('pagefind ran but produced no pagefind/pagefind.js — the search page would 404 on its index.');
+  }
+  ok(`indexed ${pages || '?'} pages${words ? `, ${words} words` : ''}`);
+}
+
+/* ---------- 4. assets ---------- */
 say('Syncing assets');
 for (const [name, group] of Object.entries(cfg.cacheControl)) {
   if (name === '_comment' || !group.paths) continue;
@@ -108,7 +133,7 @@ for (const [name, group] of Object.entries(cfg.cacheControl)) {
   }
 }
 
-/* ---------- 4. pages ---------- */
+/* ---------- 5. pages ---------- */
 say('Syncing pages and root files');
 const excludes = ['assets/*', ...cfg.exclude].map((e) => `--exclude ${q(e)}`).join(' ');
 const pagesOut = aws(
@@ -117,7 +142,7 @@ const pagesOut = aws(
 );
 ok(`${plural(counted(pagesOut), 'change')} \u2192 ${cfg.cacheControl.pages.value}`);
 
-/* ---------- 5. invalidate ---------- */
+/* ---------- 6. invalidate ---------- */
 say('Invalidating CloudFront');
 if (!distId) {
   console.log(
@@ -137,7 +162,7 @@ if (!distId) {
   ok('invalidation completed');
 }
 
-/* ---------- 6. verify ---------- */
+/* ---------- 7. verify ---------- */
 say('Verifying live URLs');
 if (DRY) {
   console.log('    \u2013 dry run, skipping');

@@ -48,3 +48,8 @@
 # --- Apps page removed (content lives on the VibeCrafted apps site; nav now links there) ---
 /apps/                         ->  /                     # Apps; homepage "Extend BOS with apps" section links out to vibecraftedsoftware.com
 /th/apps/                      ->  /th/                  # Thai Apps
+
+# --- Module pages merged into search-targeted landing pages (SEO landing-page pass) ---
+/inventory-management-features-benefits/      ->  /inventory-management-software/   # thin module page merged into the inventory landing page
+/production-features-benefits/                ->  /production-planning-software/    # thin module page merged into the production planning landing page
+/costing-features-benefits/                   ->  /job-costing-software/            # thin module page merged into the job costing landing page

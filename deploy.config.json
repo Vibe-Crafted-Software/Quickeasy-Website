@@ -57,6 +57,12 @@
       "value": "public,max-age=31536000,immutable"
     },
     "pages": {
+      "_comment": [
+        "Also covers the generated /pagefind/ search bundle. Its index chunks carry",
+        "content hashes, but pagefind.js and pagefind-entry.json do not, so they stay",
+        "on the short page TTL rather than an immutable one — the per-deploy /*",
+        "invalidation is what makes a rebuilt index visible immediately."
+      ],
       "value": "public,max-age=300"
     }
   },
@@ -66,6 +72,7 @@
     "CLAUDE.md",
     "README.md",
     "package.json",
+    ".gitignore",
     "*-REDIRECTS.txt",
     "test/*",
     "seo/*",

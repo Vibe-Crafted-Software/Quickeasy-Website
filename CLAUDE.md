@@ -138,16 +138,64 @@ This is a same-domain WordPress→static migration of an already-ranking site
   native-speaker review** before launch. Thai contact (Thailand distribution partner): Vibe Crafted Software,
   Pattraporn (Nim) Thiamjai, info@vibecraftedsoftware.com, +66 (0) 92 849 4555.
 
+## Style sheet (unlisted)
+
+- `/style-sheet/` is a living style guide for `main.css` — every token, type
+  style and component rendered live, so both palettes can be checked by flipping
+  the header theme toggle. Keep it current when adding a component.
+- **It is deliberately unlisted and must stay that way**: nothing links to it,
+  it is `noindex,nofollow` (so `gen-sitemap.mjs` skips it), and it has no
+  `data-pagefind-body`, so site search never returns it. Reach it by typing the
+  URL. Don't add it to the nav, the footer, or any sweep that adds links.
+- Its swatch-grid CSS lives in a page-local `<style>` block rather than in
+  `main.css` — no visitor-facing page needs those rules.
+
+## Site search (Pagefind)
+
+- Search opens on its own page — `/search/` (EN) and `/th/search/` (TH) — never as
+  an overlay. Both are `noindex,follow` (Google advises against indexing internal
+  search results) and are therefore skipped by `seo/gen-sitemap.mjs`, which now
+  filters any page carrying a `noindex` robots meta.
+- The header carries a `.site-search` form on **every** page: a plain `GET` to
+  `/search/` (or `/th/search/` on Thai pages), so search works with JS off.
+  `main.js` only adds the `/` hotkey that focuses it.
+- `assets/js/search-page.js` runs on the search pages only. It reads `?q=`,
+  dynamically imports `/pagefind/pagefind.js` and renders the results itself —
+  the Pagefind **JS API**, not PagefindUI, so the markup uses our own tokens.
+  UI strings live in a `<script type="application/json" id="search-strings">`
+  block per page, which is how the Thai page is translated.
+- **`data-pagefind-body` on `<main>` is the opt-in marker** and does two jobs:
+  it keeps nav/header/footer chrome out of every excerpt, and it excludes the
+  pages that must never be indexed — `404.html` and the two search pages, which
+  deliberately never carry it. Any new page needs it, or it will be unsearchable.
+  Added by the same Node sweep that maintains nav/footer.
+- Thai is free: Pagefind reads `<html lang>`, builds a separate index per
+  language, and loads the one matching the page doing the searching. So
+  `/th/search/` returns only Thai pages. (Pagefind has no Thai stemmer — matches
+  are exact rather than across root words.)
+- **The index is build product, not source.** `/pagefind/` is gitignored and
+  rebuilt by `deploy.mjs` step 3 on every deploy (`npx -y pagefind@1.5.2 --site .`,
+  pinned — override via `search.command` in `deploy.config.json`), so it always
+  matches the HTML being uploaded. It is *not* in the deploy exclude list, and
+  rides the short `pages` cache-control because `pagefind.js` and
+  `pagefind-entry.json` have unhashed names. To preview search locally you must
+  run the pagefind command yourself first; without it the page degrades to
+  "Search is unavailable right now."
+- Tests N1–N5 cover the wiring (pages, header form per language, the
+  `data-pagefind-body` invariant, the script/CSS pieces, and that deploy builds
+  a pinned index). They deliberately do **not** assert on `/pagefind/` output,
+  which is absent on a fresh checkout.
+
 ## Conventions
 
 - Folder path = live URL (static site served at domain root).
 - Preview locally: `node <scratch>/serve.mjs "C:/Projects/Quickeasy Website"` → http://localhost:8099
 - **Deploy: `npm run deploy`** (`npm run deploy:dry` to see it without changing
   anything). Driven by `deploy.config.json`: runs `npm test`, refuses if the
-  generated SEO artifacts were stale, syncs by cache-control group, invalidates
-  CloudFront once `cloudfrontDistributionId` is set, then checks a few URLs return
-  200. Don't hand-run `aws s3 sync` — the cache headers and exclude list live in
-  that config for a reason.
+  generated SEO artifacts were stale, rebuilds the Pagefind search index, syncs by
+  cache-control group, invalidates CloudFront once `cloudfrontDistributionId` is
+  set, then checks a few URLs return 200. Don't hand-run `aws s3 sync` — the cache
+  headers and exclude list live in that config for a reason.
 - Legacy WordPress dirs (`wp-admin`, `wp-content/plugins`, `wp-includes`, `wp-json`,
   `xmlrpc.php`, feeds) are being removed — do not add new references to them.
 - Commit messages end with the required `Co-Authored-By` trailer.

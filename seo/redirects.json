@@ -349,6 +349,14 @@
       "value": "/contact-us/"
     },
     {
+      "key": "/costing-features-benefits",
+      "value": "/job-costing-software/"
+    },
+    {
+      "key": "/costing-features-benefits/",
+      "value": "/job-costing-software/"
+    },
+    {
       "key": "/erp-for-printing-signage-packaging",
       "value": "/printing-signage-packaging/"
     },
@@ -381,6 +389,14 @@
       "value": "/2022/01/06/how-erp-and-the-future-of-work-in-south-africas-digital-economy-are-intrinsically-linked/"
     },
     {
+      "key": "/inventory-management-features-benefits",
+      "value": "/inventory-management-software/"
+    },
+    {
+      "key": "/inventory-management-features-benefits/",
+      "value": "/inventory-management-software/"
+    },
+    {
       "key": "/page-sitemap.xml",
       "value": "/sitemap.xml"
     },
@@ -395,6 +411,14 @@
     {
       "key": "/pricing-faq/",
       "value": "/pricing/"
+    },
+    {
+      "key": "/production-features-benefits",
+      "value": "/production-planning-software/"
+    },
+    {
+      "key": "/production-features-benefits/",
+      "value": "/production-planning-software/"
     },
     {
       "key": "/sitemap_index.xml",

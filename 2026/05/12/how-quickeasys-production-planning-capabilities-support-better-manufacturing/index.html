@@ -109,6 +109,10 @@
 <header class="site-header">
   <div class="container site-header__bar">
     <a class="brand" href="/" aria-label="QuickEasy Software home"><img src="/assets/img/logo.png" alt="QuickEasy Software" width="150" height="40" /></a>
+    <form class="site-search" action="/search/" role="search">
+      <label class="visually-hidden" for="site-search-input">Search the site</label>
+      <input class="site-search__input" id="site-search-input" name="q" type="search" placeholder="Search…" autocomplete="off" />
+    </form>
     <button class="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false">
       <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
@@ -118,12 +122,12 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
     </button>
     <nav class="nav" id="site-nav" aria-label="Main">
-      <ul style="display:contents"><li><a href="/">Home</a></li><li><a href="/pricing/">Pricing</a></li><li class="has-menu"><a href="#" aria-haspopup="true" aria-current="page">Blogs</a><ul class="submenu submenu--wide"><li><a href="/blog/#erp-business-systems">ERP &amp; Business Systems</a></li><li><a href="/blog/#production-manufacturing">Production &amp; Manufacturing</a></li><li><a href="/blog/#inventory-procurement">Inventory &amp; Procurement</a></li><li><a href="/blog/#financial-accounting">Financial &amp; Accounting</a></li><li><a href="/blog/#sales-crm-service">Sales, CRM &amp; Service</a></li><li><a href="/blog/#industries-verticals">Industries &amp; Verticals</a></li><li><a href="/blog/#cloud-data-technology">Cloud, Data &amp; Technology</a></li><li><a href="/blog/#business-growth-leadership">Business Growth &amp; Leadership</a></li><li><a href="/blog/">All Blogs</a></li></ul></li><li class="has-menu"><a href="#" aria-haspopup="true">Support</a><ul class="submenu"><li><a href="/documentation/">Documentation</a></li><li><a href="/support/">Customer Service</a></li></ul></li><li><a href="/about-us/">About</a></li></ul>
+      <ul style="display:contents"><li><a href="/">Home</a></li><li class="has-menu"><a href="#" aria-haspopup="true">Solutions</a><ul class="submenu submenu--wide"><li><a href="/erp-software-south-africa/">ERP Software South Africa</a></li><li><a href="/erp-for-small-business/">ERP for Small Business</a></li><li><a href="/inventory-management-software/">Inventory Management Software</a></li><li><a href="/production-planning-software/">Production Planning Software</a></li><li><a href="/job-costing-software/">Job Costing Software</a></li><li><a href="/estimating-and-quoting-features-benefits/">Estimating &amp; Quoting</a></li><li><a href="/manufacturing-erp/">Manufacturing ERP</a></li><li><a href="/printing-signage-packaging/">Printing, Signage &amp; Packaging</a></li></ul></li><li><a href="/pricing/">Pricing</a></li><li class="has-menu"><a href="#" aria-haspopup="true" aria-current="page">Blogs</a><ul class="submenu submenu--wide"><li><a href="/blog/#erp-business-systems">ERP &amp; Business Systems</a></li><li><a href="/blog/#production-manufacturing">Production &amp; Manufacturing</a></li><li><a href="/blog/#inventory-procurement">Inventory &amp; Procurement</a></li><li><a href="/blog/#financial-accounting">Financial &amp; Accounting</a></li><li><a href="/blog/#sales-crm-service">Sales, CRM &amp; Service</a></li><li><a href="/blog/#industries-verticals">Industries &amp; Verticals</a></li><li><a href="/blog/#cloud-data-technology">Cloud, Data &amp; Technology</a></li><li><a href="/blog/#business-growth-leadership">Business Growth &amp; Leadership</a></li><li><a href="/blog/">All Blogs</a></li></ul></li><li class="has-menu"><a href="#" aria-haspopup="true">Support</a><ul class="submenu"><li><a href="/documentation/">Documentation</a></li><li><a href="/support/">Customer Service</a></li></ul></li><li><a href="/about-us/">About</a></li></ul>
       <a class="btn btn--primary btn--sm nav__cta" href="/contact-us/">Contact us</a>
     </nav>
   </div>
 </header>
-<main>
+<main data-pagefind-body>
 
   <section class="hero hero--sub">
     <div class="container hero-grid">
@@ -137,7 +141,7 @@
 
   <section class="section">
     <div class="container prose">
-      <p>Manufacturing is hard to control when your production planning software is actually a spreadsheet, your stock figures live somewhere else, your job cards are written by hand, and your costs only become clear once the job is finished.</p>
+      <p>Manufacturing is hard to control when your <a href="/production-planning-software/">production planning software</a> is actually a spreadsheet, your stock figures live somewhere else, your job cards are written by hand, and your costs only become clear once the job is finished.</p>
       <p>QuickEasy’s production planning capabilities help manufacturers plan, schedule, track and cost production from one connected system. Manage work orders, job cards, routings, Gantt charts, Kanban boards, materials, timekeeping, operator tracking, work centre loading, non-conformance reporting, inventory, costing, dashboards and reports inside the same manufacturing ERP environment. QuickEasy gives your team a clearer view of production while work is happening, not only once the month is over.</p>
       <p>Jump ahead: Request a demo</p>
       <h2>Key takeaways</h2>
@@ -155,7 +159,7 @@
       <p>QuickEasy supports the real way manufacturing works by giving your team flexible planning functionality, multiple production views, live job tracking, material visibility and connected reporting. This is useful whether you manufacture standard products, custom jobs, printed materials, components, assemblies, packaging, engineered items, batches, sub-assemblies or finished goods.</p>
       <h3>You do not need every department to work from the same screen. You need every department to work from the same information.</h3>
       <h2>Plan production your way</h2>
-      <p>Different manufacturers need different production documents and workflows. A printing business may need job cards, routings and JDF/Switch integration. An engineering business may need work orders, labour tracking and cost centre visibility. A packaging manufacturer may need material planning, multi-stage production and job costing. A make-to-order business may need every job linked closely to a customer requirement. QuickEasy supports production planning in a way that can fit your operation.</p>
+      <p>Different manufacturers need different production documents and workflows. A printing business may need job cards, routings and JDF/Switch integration. An engineering business may need work orders, labour tracking and cost centre visibility. A packaging manufacturer may need material planning, multi-stage production and <a href="/job-costing-software/">job costing</a>. A make-to-order business may need every job linked closely to a customer requirement. QuickEasy supports production planning in a way that can fit your operation.</p>
       <h3>Work orders</h3>
       <p>Work orders help your team understand what needs to be produced, in what quantity, and by when. In a busy factory, this matters because verbal instructions and scattered notes create risk. A work order gives production a structured record of the job. It helps your team see the product, quantity, due date, requirements and production status more clearly. For management, work orders also create better visibility. You can see what work is open, what has started, what is complete and what needs attention.</p>
       <h3>Job cards</h3>

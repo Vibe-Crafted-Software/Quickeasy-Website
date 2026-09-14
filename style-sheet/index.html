@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Style sheet - QuickEasy Software</title>
+<meta name="description" content="Internal reference for the QuickEasy design system — tokens, typography and components from assets/css/main.css." />
+<meta name="robots" content="noindex,nofollow" />
+<link rel="canonical" href="https://quickeasysoftware.com/style-sheet/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Style sheet - QuickEasy Software" />
+<meta property="og:description" content="Internal reference for the QuickEasy design system — tokens, typography and components from assets/css/main.css." />
+<meta property="og:url" content="https://quickeasysoftware.com/style-sheet/" />
+<meta property="og:image" content="https://quickeasysoftware.com/assets/img/hero-erp.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon.png" />
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" />
+<script>(function(){try{var t=localStorage.getItem('theme');if(t!=='dark'&&t!=='light')t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<link rel="stylesheet" href="/assets/css/main.css" />
+<script src="/assets/js/main.js" defer></script>
+<style>
+  /* Page-local: only this page needs a swatch grid, so it stays here rather
+     than growing main.css for every visitor. Tokens only — no literal colours. */
+  .sg-swatches{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}
+  .sg-swatch{display:flex;flex-direction:column;gap:6px}
+  .sg-chip{display:block;height:60px;border-radius:var(--radius);border:1px solid var(--line)}
+  .sg-swatch code{font-size:13px;font-weight:700;color:var(--ink)}
+  .sg-note{font-size:12.5px;color:var(--muted);line-height:1.45}
+  .sg-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+  .sg-spec{max-width:820px;margin:0 auto}
+  .sg-spec code{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:1px 6px;font-size:13px;color:var(--ink)}
+  .sg-band{padding:14px 16px;border:1px solid var(--line);border-radius:var(--radius);font-size:14px;color:var(--body)}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://quickeasysoftware.com/#organization",
+      "name": "QuickEasy Software",
+      "legalName": "QuickEasy Software SA (Pty) Ltd",
+      "url": "https://quickeasysoftware.com/",
+      "logo": "https://quickeasysoftware.com/assets/img/logo.png",
+      "foundingDate": "1998",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "info@quickeasysoftware.com",
+        "telephone": "+27 87 820 7272",
+        "contactType": "customer support"
+      },
+      "areaServed": [
+        "South Africa",
+        "Eastern Europe",
+        "Middle East",
+        "Thailand"
+      ],
+      "knowsAbout": [
+        "ERP software",
+        "Business management software",
+        "Manufacturing",
+        "Printing",
+        "Packaging",
+        "Signage",
+        "Pharmaceutical",
+        "Engineering",
+        "Inventory management",
+        "Accounting",
+        "Production planning"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://quickeasysoftware.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Style sheet",
+          "item": "https://quickeasysoftware.com/style-sheet/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<header class="site-header">
+  <div class="container site-header__bar">
+    <a class="brand" href="/" aria-label="QuickEasy Software home"><img src="/assets/img/logo.png" alt="QuickEasy Software" width="150" height="40" /></a>
+    <form class="site-search" action="/search/" role="search">
+      <label class="visually-hidden" for="site-search-input">Search the site</label>
+      <input class="site-search__input" id="site-search-input" name="q" type="search" placeholder="Search…" autocomplete="off" />
+    </form>
+    <button class="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+    </button>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <nav class="nav" id="site-nav" aria-label="Main">
+      <ul style="display:contents"><li><a href="/">Home</a></li><li class="has-menu"><a href="#" aria-haspopup="true">Solutions</a><ul class="submenu submenu--wide"><li><a href="/erp-software-south-africa/">ERP Software South Africa</a></li><li><a href="/erp-for-small-business/">ERP for Small Business</a></li><li><a href="/inventory-management-software/">Inventory Management Software</a></li><li><a href="/production-planning-software/">Production Planning Software</a></li><li><a href="/job-costing-software/">Job Costing Software</a></li><li><a href="/estimating-and-quoting-features-benefits/">Estimating &amp; Quoting</a></li><li><a href="/manufacturing-erp/">Manufacturing ERP</a></li><li><a href="/printing-signage-packaging/">Printing, Signage &amp; Packaging</a></li></ul></li><li><a href="/pricing/">Pricing</a></li><li class="has-menu"><a href="#" aria-haspopup="true">Blogs</a><ul class="submenu submenu--wide"><li><a href="/blog/#erp-business-systems">ERP &amp; Business Systems</a></li><li><a href="/blog/#production-manufacturing">Production &amp; Manufacturing</a></li><li><a href="/blog/#inventory-procurement">Inventory &amp; Procurement</a></li><li><a href="/blog/#financial-accounting">Financial &amp; Accounting</a></li><li><a href="/blog/#sales-crm-service">Sales, CRM &amp; Service</a></li><li><a href="/blog/#industries-verticals">Industries &amp; Verticals</a></li><li><a href="/blog/#cloud-data-technology">Cloud, Data &amp; Technology</a></li><li><a href="/blog/#business-growth-leadership">Business Growth &amp; Leadership</a></li><li><a href="/blog/">All Blogs</a></li></ul></li><li class="has-menu"><a href="#" aria-haspopup="true">Support</a><ul class="submenu"><li><a href="/documentation/">Documentation</a></li><li><a href="/support/">Customer Service</a></li></ul></li><li><a href="/about-us/">About</a></li></ul>
+      <a class="btn btn--primary btn--sm nav__cta" href="/contact-us/">Contact us</a>
+    </nav>
+  </div>
+</header>
+<main>
+
+  <section class="hero hero--sub">
+    <div class="container">
+      <p class="eyebrow">Internal reference</p>
+      <h1>Style sheet</h1>
+      <p class="lead">Every token and component in <code>assets/css/main.css</code>, rendered live. Flip the theme toggle in the header to check both palettes.</p>
+      <p>This page is deliberately unlisted — nothing links to it, it is <code>noindex</code> so it stays out of <code>sitemap.xml</code>, and it carries no <code>data-pagefind-body</code>, so site search will never return it.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="sec-head">
+        <p class="eyebrow">01 — Colour</p>
+        <h2 class="h2">Tokens</h2>
+        <p class="lead">Every colour comes from a token. Hardcode a literal and it will not theme. The dark palette redefines these same names under <code>:root[data-theme="dark"]</code>.</p>
+      </div>
+      <h3>Ink</h3>
+      <div class="sg-swatches">
+        <div class="sg-swatch">
+          <span class="sg-chip" style="background:var(--ink)"></span>
+          <code>--ink</code>
+          <span class="sg-note">Headings, strongest text</span>
+        </div>
+        <div class="sg-swatch">
+          <span class="sg-chip" style="background:var(--ink-2)"></span>
+          <code>--ink-2</code>
+          <span class="sg-note">Sub-headings, nav links</span>
+        </div>
+        <div class="sg-swatch">
+          <span class="sg-chip" style="background:var(--body)"></span>
+          <code>--body</code>
+          <span class="sg-note">Body copy</span>
+        </div>
+        <div class="sg-swatch">
+          <span class="sg-chip" style="background:var(--muted)"></span>
+          <code>--muted</code>
+          <span class="sg-note">Meta, placeholders</span>
+        </div>
+        <div class="sg-swatch">
+          <span class="sg-chip" style="background:var(--graphite)"></span>
+          <code>--graphite</code>
+          <span class="sg-note">Secondary grey</span>
+        </div>
+      </div>
+      <h3 style="margin-top:28px">Surfaces &amp; lines</h3>
+      <div class="sg-swatches">
+        <div class="sg-swatch">
+          <span class="sg-chip" style="background:var(--bg)"></span>
+          <code>--bg</code>
+          <span class="sg-note">Page background</span>
+        </div>
+        <div class="sg-swatch">
+          <span class="sg-chip" style="background:var(--surface)"></span>
+          <code>--surface</code>
+          <span class="sg-note">Cards, inputs, menus</span>
+        </div>
+        <div class="sg-swatch">
+          <span class="sg-chip" style="background:var(--paper)"></span>
+          <code>--paper</code>
+          <span class="sg-note">Grey band tone</span>
+        </div>
+        <div class="sg-swatch">
+          <span class="sg-chip" style="background:var(--line)"></span>
+          <code>--line</code>
+          <span class="sg-note">Borders</span>
+        </div>
+        <div class="sg-swatch">
+          <span class="sg-chip" style="background:var(--line-2)"></span>
+          <code>--line-2</code>
+          <span class="sg-note">Softer borders</span>
+        </div>
+      </div>
+      <h3 style="margin-top:28px">Accent</h3>
+      <div class="sg-swatches">
+        <div class="sg-swatch">
+          <span class="sg-chip" style="background:var(--red)"></span>
+          <code>--red</code>
+          <span class="sg-note">Accent role — holds an ink tone in the monochrome system</span>
+        </div>
+        <div class="sg-swatch">
+          <span class="sg-chip" style="background:var(--red-dk)"></span>
+          <code>--red-dk</code>
+          <span class="sg-note">Accent, darkest</span>
+        </div>
+        <div class="sg-swatch">
+          <span class="sg-chip" style="background:var(--red-wash)"></span>
+          <code>--red-wash</code>
+          <span class="sg-note">Accent wash</span>
+        </div>
+      </div>
+      <p class="sg-note" style="margin-top:16px;max-width:62ch">The <code>--red*</code> names are historical. In the monochrome system they hold ink tones — red survives only on the QuickEasy logo image itself.</p>
+    </div>
+  </section>
+
+  <section class="section section--paper">
+    <div class="container">
+      <div class="sec-head">
+        <p class="eyebrow">02 — Type</p>
+        <h2 class="h2">Typography</h2>
+        <p class="lead">Open Sans throughout, set in <code>--font</code>. Thai pages swap it for Noto Sans Thai via <code>html[lang="th"]</code>.</p>
+      </div>
+      <div class="sg-spec">
+        <h1>Heading 1 — page title</h1>
+        <h2 class="h2">Heading 2 — <code>.h2</code> section title</h2>
+        <h3>Heading 3 — card and sub-section title</h3>
+        <p class="eyebrow">Eyebrow — <code>.eyebrow</code></p>
+        <p class="lead">Lead paragraph — <code>.lead</code>. Sits under a heading, capped at 62ch, and centres itself inside <code>.center</code>.</p>
+        <p>Body copy — the default paragraph. <a href="#">Inline links</a> pick up the accent token, and <strong>strong</strong> and <em>emphasis</em> both work as expected inside running text.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="sec-head">
+        <p class="eyebrow">03 — Actions</p>
+        <h2 class="h2">Buttons &amp; badges</h2>
+      </div>
+      <div class="sg-spec">
+        <div class="sg-row">
+          <a class="btn btn--primary" href="#">Primary — <code>.btn--primary</code></a>
+          <a class="btn" href="#">Default — <code>.btn</code></a>
+          <a class="btn btn--ghost" href="#">Ghost — <code>.btn--ghost</code></a>
+          <a class="btn btn--primary btn--sm" href="#">Small — <code>.btn--sm</code></a>
+        </div>
+        <p class="sg-note" style="margin-top:14px">Wrap a set in <code>.btn-row</code>, or <code>.btn-row .btn-row--center</code> to centre it.</p>
+        <div class="sg-row" style="margin-top:20px"><span class="badge">Badge — <code>.badge</code></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--paper">
+    <div class="container">
+      <div class="sec-head">
+        <p class="eyebrow">04 — Containers</p>
+        <h2 class="h2">Cards &amp; grids</h2>
+        <p class="lead">Grids are <code>.grid</code> plus <code>.grid--2</code>, <code>.grid--3</code> or <code>.grid--4</code>; they collapse to one column on small screens.</p>
+      </div>
+      <div class="grid grid--3">
+        <div class="card"><h3>Plain card</h3><p>The default surface block — <code>.card</code>. Used for feature and problem grids.</p></div>
+        <a class="card mod-card" href="#"><span class="mod-num">02</span><h3>Module card</h3><p>A linked card — <code>.mod-card</code>, with <code>.mod-num</code> and <code>.mod-go</code>.</p><span class="mod-go">Discover something &rarr;</span></a>
+        <div class="card" style="border-top:3px solid var(--red)"><h3>Accented card</h3><p>A card with a top rule, used for the numbered problem cards on the homepage.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="sec-head">
+        <p class="eyebrow">05 — Layout</p>
+        <h2 class="h2">Section bands</h2>
+        <p class="lead">Bands alternate white / paper / white down every page. Two same-tone bands touching read as one oversized slab — the tests catch it.</p>
+      </div>
+      <div class="sg-spec">
+        <p class="sg-band" style="background:var(--bg)"><code>.section</code> — white band. The default.</p>
+        <p class="sg-band" style="background:var(--paper);margin-top:12px"><code>.section .section--paper</code> — grey band. Tone comes from <code>--paper</code> alone.</p>
+        <p class="sg-band" style="background:var(--paper);margin-top:12px"><code>.section .section--paper .section--ink</code> — grey band with rules top and bottom. <code>--ink</code> only adds the rules; it never sets the tone.</p>
+        <p class="sg-note" style="margin-top:14px">The hero's gradient ends on paper, so it counts as a grey band and the first section under it must be white. Fix collisions in the page markup, never with an adjacent-sibling override in <code>main.css</code>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--paper">
+    <div class="container">
+      <div class="sec-head">
+        <p class="eyebrow">06 — Lists</p>
+        <h2 class="h2">Lists &amp; prose</h2>
+      </div>
+      <div class="sg-spec">
+        <h3>Check list — <code>.check-list</code></h3>
+        <ul class="check-list">
+          <li><strong>A feature name</strong> — followed by the sentence that explains what it does and why it matters.</li>
+          <li><strong>A second feature</strong> — the pattern used down every module and landing page.</li>
+        </ul>
+        <h3 style="margin-top:24px">Prose — <code>.prose</code></h3>
+        <div class="prose">
+          <p>Long-form copy, as used by blog posts. Headings, paragraphs and lists inside a <code>.prose</code> wrapper get their vertical rhythm set for them.</p>
+          <ul><li>An unordered item</li><li>Another item</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="sec-head">
+        <p class="eyebrow">07 — Forms</p>
+        <h2 class="h2">Form controls</h2>
+        <p class="lead">The contact and demo forms all use this markup; <code>main.js</code> binds any <code>.contact-form</code> to the relay.</p>
+      </div>
+      <form class="contact-form sg-spec" onsubmit="return false">
+        <div class="form-group">
+          <label for="sg-name">Text input</label>
+          <input type="text" id="sg-name" name="sg-name" placeholder="Placeholder text" />
+        </div>
+        <div class="form-group">
+          <label for="sg-message">Textarea</label>
+          <textarea id="sg-message" name="sg-message" placeholder="Placeholder text"></textarea>
+        </div>
+        <div class="btn-row"><button type="submit" class="btn btn--primary">Submit button</button></div>
+        <div class="form-status" role="status">Status line — <code>.form-status</code>, filled in by main.js.</div>
+      </form>
+    </div>
+  </section>
+
+  <section class="section section--paper">
+    <div class="container">
+      <div class="sec-head">
+        <p class="eyebrow">08 — Search</p>
+        <h2 class="h2">Search components</h2>
+        <p class="lead">The header field is <code>.site-search</code>; the results page uses the blocks below.</p>
+      </div>
+      <div class="sg-spec">
+        <form class="search-form" onsubmit="return false">
+          <label class="visually-hidden" for="sg-search">Search demo</label>
+          <input class="search-form__input" id="sg-search" type="search" placeholder="Search the site&hellip;" />
+          <button class="btn btn--primary" type="submit">Search</button>
+        </form>
+        <p class="search-status">Status line — <code>.search-status</code>.</p>
+        <div class="search-results">
+          <a class="search-result" href="#">
+            <h2 class="search-result__title">A result title</h2>
+            <span class="search-result__url">/a/result/url/</span>
+            <p class="search-result__excerpt">The excerpt Pagefind returns, with its own <mark>highlighted</mark> match inside it.</p>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="sec-head">
+        <p class="eyebrow">09 — Utilities</p>
+        <h2 class="h2">Utilities &amp; conventions</h2>
+      </div>
+      <div class="sg-spec">
+        <ul class="check-list">
+          <li><strong><code>.container</code></strong> — the max-width wrapper (<code>--maxw</code>) with the side gutter. Every band needs one.</li>
+          <li><strong><code>.center</code></strong> — centres text, and centres a <code>.lead</code> inside it.</li>
+          <li><strong><code>.sec-head</code></strong> — the eyebrow + heading + lead cluster at the top of a band.</li>
+          <li><strong><code>.gs</code></strong> — grayscales an image. Site imagery is grayscale; the QuickEasy logo stays in colour.</li>
+          <li><strong><code>.visually-hidden</code> / <code>.sr-only</code></strong> — hides a label visually while leaving it for screen readers.</li>
+          <li><strong><code>.table-wrap</code></strong> — wraps a wide table so it scrolls horizontally instead of the page doing so.</li>
+        </ul>
+        <p class="sg-note" style="margin-top:18px">New components must use the tokens above — never hardcode a light colour, or it will not theme. The header and footer are duplicated into every page, so change them with a one-off Node sweep, not by hand.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col footer-brand">
+        <img src="/assets/img/logo.png" alt="QuickEasy Software" />
+        <p>Complete business management &amp; ERP software for growing businesses — building business systems since 1998.</p>
+        <p><a href="mailto:info@quickeasysoftware.com">info@quickeasysoftware.com</a><br>+27 87 820 7272</p>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="/documentation/">Documentation</a></li>
+          <li><a href="/pricing/">Pricing</a></li>
+          <li><a href="/about-us/">About Us</a></li>
+          <li><a href="/support/">Support</a></li>
+          <li><a href="/contact-us/">Contact</a></li>
+          <li><a href="/faq/">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Regions</h4>
+        <ul>
+          <li><a href="/south-africa/">South Africa</a></li>
+          <li><a href="/eastern-europe/">Eastern Europe</a></li>
+          <li><a href="/middle-east/">Middle East</a></li>
+          <li><a href="/thailand/">Thailand</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/website-policy/">Website Terms &amp; Privacy</a></li>
+          <li><a href="/software-policy/">Software Terms</a></li>
+          <li><a href="/popia-policy/">POPIA Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 QuickEasy Software SA (Pty) Ltd. All rights reserved.</span>
+      <span><a href="https://websites.vibecraftedsoftware.com" target="_blank" rel="noopener">Vibe Crafted Websites</a></span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

@@ -168,3 +168,22 @@
     renderPrices("ZAR");
   }
 })();
+
+/* ============================================
+   Site search shortcut. The header form is a plain GET to /search/, so
+   search works with JavaScript off; this only adds the "/" hotkey that
+   focuses it from anywhere, unless focus is already in a field.
+   ============================================ */
+(function () {
+  var input = document.getElementById("site-search-input");
+  if (!input) return;
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key !== "/" || event.metaKey || event.ctrlKey || event.altKey) return;
+    var active = document.activeElement;
+    var tag = active && active.tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || (active && active.isContentEditable)) return;
+    event.preventDefault();
+    input.focus();
+  });
+})();
