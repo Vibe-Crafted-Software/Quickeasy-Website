@@ -94,6 +94,21 @@ how it works → what's included → honest objections → CTA.
 `/landing/` is an **unlisted internal index** of them all (target query, intent, when to
 use each), for the marketing team. Same treatment as `/stylesheet/` — see below.
 
+### The blog → product link mesh
+
+Blog posts carry contextual in-body links to these pages. The footer Solutions column
+already links every one from every page, so the value here is the **anchor text in a
+sentence**, which a footer link cannot give. Rules the sweep enforces, and any hand-edit
+should too: the anchor is a phrase **already in the prose** (never a sentence written to
+carry a link), it sits in a `<p>` or `<li>` and never a heading, one link per target per
+post, first relevant occurrence, and a per-post cap scaled to length (~3–10 contextual
+links per 1,000 words is the usual guidance; the blog currently sits at 1.87). Don't
+strip these when editing post copy.
+
+**Known gap:** 111 of 112 posts link to no other post. The blog is a set of islands that
+all point up at product pages and out to `/contact-us/`, with almost no sideways links.
+Worth a dedicated pass.
+
 ## SEO / migration
 
 This is a same-domain WordPress→static migration of an already-ranking site
