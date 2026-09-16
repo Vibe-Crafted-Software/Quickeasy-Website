@@ -86,12 +86,34 @@ up. Two pillars, each linking down to its cluster:
   `/packaging-erp/`
 
 Plus `/erp-software-south-africa/`, `/erp-for-small-business/` and
-`/estimating-and-quoting-features-benefits/`. House rules for these pages: **no images**,
-no fabricated proof (no invented logos, testimonials or statistics), every claim traceable
-to a real BOS module or a published price, one primary CTA, and the "Related" sections
-left intact — they are the internal-link mesh. Structure follows
-`web-builder-skills:website-sales-tool`: hero → problem cards → matching solution cards →
-how it works → what's included → honest objections → CTA.
+`/estimating-and-quoting-features-benefits/`.
+
+**All twelve follow the same PBSC structure**, and the band tones are fixed because L1
+requires them to alternate off the grey hero:
+
+| Band | Tone | What it does |
+|---|---|---|
+| Hero | grey | Eyebrow, benefit-led H1, one lede, two CTAs, `.hero-art` illustration |
+| **P**roblem | white | 4 `.card`s, the pain in the reader's own words |
+| **B**enefit | grey | 3 `.card`s — the payoff as an outcome, never a feature |
+| **S**olution | white | The mechanism: numbered `.mod-num` steps or a `.check-list` |
+| Depth | grey | `.feature-list` of modules and/or the "Related" cluster cards |
+| **C**lose | white | Objections answered honestly, as a `.check-list` |
+| Demo | grey+ink | One CTA, the shared contact form |
+
+House rules: **no images except the hero illustration**, no fabricated proof (no invented
+logos, testimonials or statistics), every claim traceable to a real BOS module or a
+published price, one primary CTA, and the "Related" cards left intact — they are the
+internal-link mesh B4 guards.
+
+**Hero illustrations** are inline SVG in `scratchpad`-built pages, one per topic, strictly
+greyscale and built entirely from design tokens (`var(--surface)`, `var(--line)`, `var(--ink)`…)
+so they theme. Do **not** use hex — the homepage's older `.hero-mock` does, which is why it
+does not theme. `.hero-art` in `main.css` only sizes and shadows them; the artwork draws its
+own frame. One is rendered live on `/stylesheet/`.
+
+Titles, meta descriptions and hreflang on these pages are **carried over unchanged** through
+rewrites, so a ranking move has one variable and not three.
 
 `/landing/` is an **unlisted internal index** of them all (target query, intent, when to
 use each), for the marketing team. Same treatment as `/stylesheet/` — see below.

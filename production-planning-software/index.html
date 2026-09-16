@@ -107,14 +107,16 @@
 </header>
 <main data-pagefind-body data-pagefind-filter="section:Solutions">
 
-  <section class="hero hero--sub">
+  <section class="hero">
     <div class="container hero-grid">
       <div>
         <p class="eyebrow">Production planning software</p>
-        <h1>Production Planning Software</h1>
-        <p class="lead">Plan, schedule and track every job from one board — with the costing, stock and customer data already attached.</p>
-        <p>A production plan is only as good as the data behind it. In BOS the schedule is built from real job cards, real machine capacity and real material availability, because planning, stock and costing are the same system.</p>
-        <div class="btn-row btn-row--center"><a class="btn btn--primary" href="#demo">Book a Demo</a> <a class="btn" href="/pricing/">See pricing</a></div>
+        <h1>Promise a date the shop floor can actually keep.</h1>
+        <p class="lead">Capacity-aware scheduling that knows what is already loaded, what material has landed and where every job has got to — so the date sales gives the customer is the date the job ships.</p>
+        <div class="btn-row"><a class="btn btn--primary" href="#demo">Book a demo</a> <a class="btn btn--ghost" href="/pricing/">See pricing</a></div>
+      </div>
+      <div class="hero-media">
+        <svg class="hero-art" viewBox="0 0 640 420" role="img" aria-label="A capacity-aware planning board showing jobs across machines" xmlns="http://www.w3.org/2000/svg"><rect x="0.5" y="0.5" width="639" height="419" rx="14" fill="var(--surface)" stroke="var(--line)"/><rect x="48" y="52" width="150" height="8" rx="4" fill="var(--graphite)"/><rect x="48" y="110" width="58" height="8" rx="4" fill="var(--muted)"/><path d="M124 136 H596" stroke="var(--line-2)" stroke-width="1"/><rect x="48" y="168" width="58" height="8" rx="4" fill="var(--muted)"/><path d="M124 194 H596" stroke="var(--line-2)" stroke-width="1"/><rect x="48" y="226" width="58" height="8" rx="4" fill="var(--muted)"/><path d="M124 252 H596" stroke="var(--line-2)" stroke-width="1"/><rect x="48" y="284" width="58" height="8" rx="4" fill="var(--muted)"/><path d="M124 310 H596" stroke="var(--line-2)" stroke-width="1"/><rect x="48" y="342" width="58" height="8" rx="4" fill="var(--muted)"/><path d="M124 368 H596" stroke="var(--line-2)" stroke-width="1"/><path d="M124 84 V 386" stroke="var(--line-2)" stroke-width="1"/><path d="M203 84 V 386" stroke="var(--line-2)" stroke-width="1"/><path d="M282 84 V 386" stroke="var(--line-2)" stroke-width="1"/><path d="M361 84 V 386" stroke="var(--line-2)" stroke-width="1"/><path d="M440 84 V 386" stroke="var(--line-2)" stroke-width="1"/><path d="M519 84 V 386" stroke="var(--line-2)" stroke-width="1"/><rect x="136" y="92" width="150" height="30" rx="5" fill="var(--ink-2)"/><rect x="300" y="92" width="100" height="30" rx="5" fill="var(--line)"/><rect x="136" y="150" width="90" height="30" rx="5" fill="var(--line)"/><rect x="240" y="150" width="180" height="30" rx="5" fill="var(--muted)"/><rect x="180" y="208" width="130" height="30" rx="5" fill="var(--line)"/><rect x="330" y="208" width="140" height="30" rx="5" fill="var(--ink)"/><rect x="136" y="266" width="210" height="30" rx="5" fill="var(--line)"/><rect x="360" y="266" width="110" height="30" rx="5" fill="var(--muted)"/><rect x="200" y="324" width="160" height="30" rx="5" fill="var(--line)"/><rect x="380" y="324" width="190" height="30" rx="5" fill="var(--line)"/></svg>
       </div>
     </div>
   </section>
@@ -122,37 +124,29 @@
   <section class="section">
     <div class="container">
       <div class="sec-head center">
-        <p class="eyebrow">What a connected plan changes</p>
-        <h2 class="h2">Scheduling stops being a guess.</h2>
-        <p class="lead">Three things become possible the moment the plan shares data with the rest of the business.</p>
+        <p class="eyebrow">The problem</p>
+        <h2 class="h2">The schedule is built on information the planner does not have.</h2>
+        <p class="lead">A whiteboard is good for local visibility and weak at linking material, labour, capacity and delivery dates. A skilled planner manages perhaps 50 to 100 active jobs in a spreadsheet before the complexity wins.</p>
       </div>
-      <div class="grid grid--3">
-        <div class="card"><h3>Promise dates you can keep</h3><p>Capacity and material availability are visible when you quote, not discovered when the job hits the floor.</p></div>
-        <div class="card"><h3>See work in progress as it happens</h3><p>Shop-floor tracking updates the schedule live, so a delay on one machine reflows the plan instead of surfacing at month-end.</p></div>
-        <div class="card"><h3>Know the cost while it is still running</h3><p>Hours and materials post against the job as they are consumed, so an overrun is something you catch, not something you audit.</p></div>
+      <div class="grid grid--2">
+        <div class="card"><h3>Dates promised against nothing</h3><p>Sales quotes a standard lead time that ignores current shop load, so the promise is made before anyone checks whether the week has room in it.</p></div>
+        <div class="card"><h3>The knock-on is invisible</h3><p>A whiteboard cannot tell you what expediting one job does to the six behind it. You find out when the six are late.</p></div>
+        <div class="card"><h3>Hidden WIP</h3><p>Jobs part-finished at a workstation nobody has updated. The plan assumes capacity that is already spoken for.</p></div>
+        <div class="card"><h3>Material and schedule never meet</h3><p>The job is scheduled for Tuesday and the board has no idea the substrate lands on Thursday.</p></div>
       </div>
     </div>
   </section>
 
   <section class="section section--paper">
     <div class="container">
-      <div class="grid grid--2">
-        <div class="card">
-          <h3>Work Orders</h3>
-          <ul class="check-list">
-            <li><strong>Customisable output</strong> — generate Work Tickets, Job Cards, or Routing Forms tailored to specific production needs.</li>
-            <li><strong>JDF &amp; Switch integration</strong> — seamlessly integrates with JDF standards and Switch automation for the printing industry.</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>Timekeeping &amp; Tracking</h3>
-          <ul class="check-list">
-            <li><strong>Touch screen &amp; barcode scanning</strong> — simplify tracking of production activities with user-friendly interfaces.</li>
-            <li><strong>Production planning integration</strong> — automatically syncs tracked data with production schedules.</li>
-            <li><strong>Record completed &amp; spoiled quantities</strong> — track both productive output and spoilage.</li>
-            <li><strong>Adjust team size</strong> — manage team sizes dynamically to match workload.</li>
-          </ul>
-        </div>
+      <div class="sec-head center">
+        <p class="eyebrow">The benefit</p>
+        <h2 class="h2">On-time delivery stops being luck.</h2>
+      </div>
+      <div class="grid grid--3">
+        <div class="card"><h3>A date you can defend</h3><p>Capacity is checked before the promise is made, not after — so the commitment is a plan rather than an aspiration.</p></div>
+        <div class="card"><h3>One version of where things are</h3><p>Everyone reads the same board, so the status conversation happens once instead of at every desk.</p></div>
+        <div class="card"><h3>Overtime becomes a decision</h3><p>You can see the crunch coming and choose what to do about it, rather than paying for it after the fact.</p></div>
       </div>
     </div>
   </section>
@@ -160,61 +154,42 @@
   <section class="section">
     <div class="container">
       <div class="sec-head center">
-        <p class="eyebrow">Production Planning</p>
-        <h2 class="h2">Plan, schedule and track every job</h2>
-        <p class="lead">Multiple interactive views — Kanban boards, jobs view, materials view, timekeeping, board view and Gantt charts — for flexible production management.</p>
+        <p class="eyebrow">The solution</p>
+        <h2 class="h2">A planning board that knows what the rest of the system knows.</h2>
+        <p class="lead">The schedule is not a separate document. It reads the same jobs, material and bookings as everything else.</p>
       </div>
-      <div class="grid grid--2">
-        <ul class="check-list">
-          <li><strong>Dashboard for Work Centres</strong> — monitor Work Centre loading to optimise resource utilisation and avoid bottlenecks.</li>
-          <li><strong>Support for Theory of Constraints (TOC)</strong> — plan around production constraints to maximise efficiency.</li>
-          <li><strong>View estimated vs actual time &amp; quantity</strong> — track planned vs real-time performance to improve scheduling accuracy.</li>
-          <li><strong>Job filtering by key dates</strong> — filter jobs by due, required, or active dates for precise scheduling.</li>
-          <li><strong>Support for multiple routings</strong> — manage alternative workflows for different jobs or products.</li>
-          <li><strong>Track material requisition progress</strong> — monitor material availability throughout the production process.</li>
-          <li><strong>Task progress (quantity &amp; hours)</strong> — keep track of hours worked and quantities produced for each task.</li>
-          <li><strong>Routing status with colour codes</strong> — identify task status instantly using colour-coded indicators.</li>
-          <li><strong>Operator tracking</strong> — track which operators are assigned to specific jobs to ensure accountability.</li>
-          <li><strong>Gantt diagram</strong> — visualise production timelines and task dependencies in a Gantt view.</li>
-        </ul>
-        <ul class="check-list">
-          <li><strong>Reset planning from now</strong> — adjust plans dynamically to start from the current moment.</li>
-          <li><strong>Adjust tasks for dependencies</strong> — reschedule tasks based on changing dependencies and priorities.</li>
-          <li><strong>Batch orders by start date &amp; status</strong> — organise orders efficiently by grouping tasks with similar start dates or statuses.</li>
-          <li><strong>Job scheduling by required date</strong> — plan jobs around the customer's promised date to meet deadlines.</li>
-          <li><strong>Board view</strong> — visualise tasks across cost centres and workstations.</li>
-          <li><strong>Time to Start (TTS) indicator</strong> — know when each task is scheduled to begin to avoid delays.</li>
-          <li><strong>Custom task descriptions</strong> — add specific information to tasks for better clarity.</li>
-          <li><strong>Late &amp; busy indicators</strong> — identify overloaded workstations or delayed tasks at a glance.</li>
-          <li><strong>Auto-set start status</strong> — automatically mark tasks as "ready" based on predefined models.</li>
-          <li><strong>Group tasks by cost centre</strong> — assign and manage tasks based on workstations or departments.</li>
-          <li><strong>Add notes to tasks</strong> — provide additional instructions or updates directly within each task.</li>
-        </ul>
-      </div>
-      <div style="text-align:center;margin-top:36px"><img class="gs" src="/assets/img/content/-Pngtree-3d-illustration-factory-industry_13149148-1.png" alt="3D illustration of a factory" style="max-width:460px;margin:0 auto" /></div>
+      <ul class="check-list" style="max-width:860px;margin:0 auto">
+        <li><strong>Multiple real-time planning and scheduling dashboards</strong>, so planners, supervisors and management each see the view they need.</li>
+        <li><strong>Capacity by machine and by station</strong>, so the board reflects what the plant can actually do this week.</li>
+        <li><strong>Material availability linked to the schedule</strong> through MRP — a job does not get planned into a week its substrate cannot make.</li>
+        <li><strong>Work in progress tracked start to finish</strong>, so part-finished jobs are visible instead of hidden.</li>
+        <li><strong>Shop-floor job tracking, alerts and notifications</strong> as work happens, through Manufacturing Data Collection.</li>
+        <li><strong>Time and machine tracking</strong> that measures team and machine productivity, and feeds historical data back into estimating.</li>
+        <li><strong>Transaction approvals</strong> for cost and quality sign-off at the points that matter.</li>
+      </ul>
     </div>
   </section>
 
   <section class="section section--paper">
     <div class="container">
-      <div class="grid grid--2">
-        <div class="card">
-          <h3>Non-conformance Reporting</h3>
-          <ul class="check-list">
-            <li><strong>ISO compliant</strong> — ensure quality standards with ISO-compliant reporting tools.</li>
-            <li><strong>Link NCR to Work Orders</strong> — track and resolve non-conformances through corrective Work Orders.</li>
-            <li><strong>Root cause analysis &amp; corrective actions</strong> — record problems, containment, corrective actions and evaluation for continuous improvement.</li>
-            <li><strong>Track material &amp; labour costs</strong> — monitor the impact of non-conformances on resources and costs.</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>Reporting</h3>
-          <ul class="check-list">
-            <li><strong>Real-time cost tracking</strong> — access up-to-the-minute data on production costs for informed decisions.</li>
-            <li><strong>Interactive reporting</strong> — drill down, filter, and sort data to analyse production performance.</li>
-            <li><strong>Customisable output</strong> — export reports in formats that suit business needs.</li>
-          </ul>
-        </div>
+      <div class="sec-head center">
+        <p class="eyebrow">What the board runs on</p>
+        <h2 class="h2">Planning is downstream of the rest of the system.</h2>
+      </div>
+      <div class="feature-group" style="max-width:920px;margin:0 auto">
+        <dl class="feature-list">
+          <div><dt>Bills of materials and routing</dt><dd>What has to be made, in what order, on what.</dd></div>
+          <div><dt>MRP</dt><dd>What material the plan needs and when, netted against stock and open orders.</dd></div>
+          <div><dt>Stock and WIP</dt><dd>What is free, what is committed, and what is part-finished on the floor.</dd></div>
+          <div><dt>Manufacturing Data Collection</dt><dd>Real start and finish times, so the next plan is built on facts.</dd></div>
+          <div><dt>NCR and quality control</dt><dd>Rework captured rather than quietly absorbing capacity.</dd></div>
+          <div><dt>Analytics and dashboards</dt><dd>Where the plan slipped, and whether it is slipping the same way every month.</dd></div>
+        </dl>
+      </div>
+      <div class="grid grid--3" style="margin-top:40px">
+        <a class="card mod-card" href="/mrp-software/"><h3>MRP software</h3><p>Making sure the material is there for the week you planned.</p><span class="mod-go">Read more &rarr;</span></a>
+        <a class="card mod-card" href="/inventory-management-software/"><h3>Inventory management</h3><p>The stock position the schedule depends on.</p><span class="mod-go">Read more &rarr;</span></a>
+        <a class="card mod-card" href="/manufacturing-erp/"><h3>Manufacturing ERP</h3><p>The wider system production planning sits inside.</p><span class="mod-go">Read more &rarr;</span></a>
       </div>
     </div>
   </section>
@@ -222,23 +197,24 @@
   <section class="section">
     <div class="container">
       <div class="sec-head center">
-        <p class="eyebrow">Further reading</p>
-        <h2 class="h2">More on production planning</h2>
+        <p class="eyebrow">The close</p>
+        <h2 class="h2">Before you commit.</h2>
       </div>
-      <div class="grid grid--3">
-        <a class="card mod-card" href="/2026/05/06/production-planning-software/"><h3>Production planning software</h3><p>What production planning software does, and where spreadsheets stop coping.</p><span class="mod-go">Read the article &rarr;</span></a>
-        <a class="card mod-card" href="/2026/05/20/production-planning-software-for-printing-companies/"><h3>Production planning software for printing companies</h3><p>Machine loading and scheduling in a print environment.</p><span class="mod-go">Read the article &rarr;</span></a>
-        <a class="card mod-card" href="/2022/11/23/developing-a-production-scheduling-system-heres-everything-you-need-to-know/"><h3>Developing a production scheduling system</h3><p>Everything to weigh up before you build or buy one.</p><span class="mod-go">Read the article &rarr;</span></a>
-      </div>
-          <p class="lead" style="text-align:center;margin:32px auto 0">Related solutions: <a href="/inventory-management-software/">inventory management software</a>, <a href="/job-costing-software/">job costing software</a> and <a href="/erp-software-south-africa/">ERP software for South African businesses</a>.</p>
+      <ul class="check-list" style="max-width:820px;margin:0 auto">
+        <li><strong>"Our scheduling is too complex for software."</strong> It is usually too complex for a whiteboard. BOS is configured to your machines, stations and transaction flow rather than a fixed model of a factory.</li>
+        <li><strong>"The floor will not update it."</strong> Shop-floor data collection is designed to be booked at the point of work, not typed up later by a supervisor.</li>
+        <li><strong>"We plan in a spreadsheet and it works."</strong> It works up to a point — that point is usually somewhere between 50 and 100 live jobs.</li>
+        <li><strong>"Is planning an extra module?"</strong> No. Every module is in every subscription. <a href="/pricing/">The prices are published.</a></li>
+        <li><strong>"How long before it is useful?"</strong> Installation is quick. The board is useful as soon as your routings and capacities are configured; the historical data that sharpens estimating builds from there.</li>
+      </ul>
     </div>
   </section>
 
   <section class="section section--paper section--ink" id="demo">
     <div class="container">
       <div class="sec-head center">
-        <h2 class="h2">Book a Demo</h2>
-        <p class="lead">Tell us how you work now, and we will show you the same job running end to end in QuickEasy BOS.</p>
+        <h2 class="h2">Book a demo</h2>
+        <p class="lead">Tell us how next week gets planned today, and we will show you the same week on a QuickEasy planning board.</p>
       </div>
       <form class="contact-form" style="margin:0 auto" novalidate>
         <div class="form-honeypot" aria-hidden="true">
