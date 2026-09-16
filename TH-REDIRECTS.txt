@@ -1,0 +1,10 @@
+Thai tree redirects (apply as 301 at host)
+
+Three Thai pages were the machine-translated twins of English feature pages that
+the rebuild had already merged into landing pages. They are superseded by proper
+Thai landing pages on the slug that matches the English one, so the English page
+and its Thai twin now share a path.
+
+/th/production-features-benefits/  ->  /th/production-planning-software/
+/th/costing-features-benefits/  ->  /th/job-costing-software/
+/th/inventory-management-features-benefits/  ->  /th/inventory-management-software/

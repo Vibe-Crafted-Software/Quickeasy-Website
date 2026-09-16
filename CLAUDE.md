@@ -118,6 +118,16 @@ rewrites, so a ranking move has one variable and not three.
 `/landing/` is an **unlisted internal index** of them all (target query, intent, when to
 use each), for the marketing team. Same treatment as `/stylesheet/` — see below.
 
+**All twelve have a Thai counterpart** under `/th/`, same PBSC structure and the same hero
+illustration, but **localised, not translated** — Thai wage and labour-shortage pressure,
+imported material lead times and landing costs, OEM sub-contract work, batch traceability
+for food/beverage/pharma customers. The slugs match except `/th/erp-software-thailand/`,
+which answers `/erp-software-south-africa/` because the country *is* the page. Their own
+index is `/landing-thai/`. Two rules the copy must keep: anything depending on Thai tax,
+e-Tax Invoice, document layout or grant eligibility is raised as a **question for the
+demo, never claimed**; and the automatic paper-price feed is flagged as a South
+Africa-only service. See *Internationalisation* below.
+
 ### The blog → product link mesh
 
 Blog posts carry contextual in-body links to these pages. With no chrome link anywhere,
@@ -206,24 +216,35 @@ This is a same-domain WordPress→static migration of an already-ranking site
   `/th/YYYY/MM/DD/slug/` URLs, mirroring the English structure; `/th/blog/` mirrors
   `/blog/`'s 8 topic categories, reusing each post's already-translated title/date, and
   every Thai page's Blogs nav submenu + each post's "back to all blogs" link point at
-  it. `/th/manufacturing-erp/` and `/th/printing-signage-packaging/` were rebuilt
-  alongside their English pillars and are a **fresh machine draft not yet reviewed**;
-  the four newer English landing pages have no Thai version yet. Thai marketing/blog copy is a machine-drafted
+  it. **All twelve landing pages** now have a Thai counterpart, localised for the Thai
+  market rather than translated, indexed at `/landing-thai/`; three older Thai feature
+  pages they supersede (`/th/production-features-benefits/`,
+  `/th/costing-features-benefits/`, `/th/inventory-management-features-benefits/`) are
+  301-redirected in `TH-REDIRECTS.txt`. Thai marketing/blog copy is a machine-drafted
   first pass — **flag for
   native-speaker review** before launch. Thai contact (Thailand distribution partner): Vibe Crafted Software,
   Pattraporn (Nim) Thiamjai, info@vibecraftedsoftware.com, +66 (0) 92 849 4555.
+- **Thai landing pages carry the same in-body mesh as the English ones** (no chrome link
+  anywhere): Thai posts link to them with an anchor that is a phrase already in the
+  translated prose, mirroring which English post links to which English page. Thai has no
+  word spacing, so a sweep must not open an anchor mid-word — require a space, tag or
+  punctuation before the phrase, and never let a phrase starting `การ`/`ความ` follow a
+  Thai letter. Every Thai landing page holds at least 8 inbound in-body links.
 
-## Unlisted pages (`/stylesheet/`, `/landing/`)
+## Unlisted pages (`/stylesheet/`, `/landing/`, `/landing-thai/`)
 
-Both are live, deliberately unlisted, and must stay that way: nothing links to them,
-they are `noindex,nofollow` (so `gen-sitemap.mjs` skips them), and neither carries
+All three are live, deliberately unlisted, and must stay that way: nothing links to them,
+they are `noindex,nofollow` (so `gen-sitemap.mjs` skips them), and none carries
 `data-pagefind-body`, so site search never returns them (test N3 would fail if it did).
 They *do* keep their Organization + BreadcrumbList JSON-LD, because test I5 wants a graph
-on every page. Reach them by typing the URL. Don't add either to the nav, the footer, or
-any sweep that adds links.
+on every page. Reach them by typing the URL. Don't add any of them to the nav, the footer,
+or any sweep that adds links.
 
 - `/landing/` — the internal index of every landing page, with what each one targets and
   when to send a prospect to it. Update it whenever a landing page is added or retired.
+- `/landing-thai/` — the same index for the Thai set, plus the rules that keep the Thai
+  copy honest (what must never be claimed about Thai tax, grants or the paper-price feed).
+  Written in English: it is a brief for the marketing team, not a visitor page.
 - `/stylesheet/` is a living style guide for `main.css` — every token, type
   style and component rendered live, so both palettes can be checked by flipping
   the header theme toggle. Keep it current when adding a component.
@@ -263,7 +284,7 @@ any sweep that adds links.
 - **`data-pagefind-body` on `<main>` is the opt-in marker** and does two jobs:
   it keeps nav/header/footer chrome out of every excerpt, and it excludes the
   pages that must never be indexed — `404.html`, the two search pages,
-  `/stylesheet/` and `/landing/`, which deliberately never carry it. Any new page
+  `/stylesheet/`, `/landing/` and `/landing-thai/`, which deliberately never carry it. Any new page
   needs it, or it will be unsearchable. The same `<main>` also carries
   **`data-pagefind-filter="section:…"`** — `Solutions` · `Pricing` · `Blog` ·
   `Support` · `Company`, localised on Thai pages (`โซลูชัน` · `ราคา` · `บล็อก` ·

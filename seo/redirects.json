@@ -753,6 +753,14 @@
       "value": "/th/blog/"
     },
     {
+      "key": "/th/costing-features-benefits",
+      "value": "/th/job-costing-software/"
+    },
+    {
+      "key": "/th/costing-features-benefits/",
+      "value": "/th/job-costing-software/"
+    },
+    {
       "key": "/th/home",
       "value": "/th/"
     },
@@ -761,12 +769,28 @@
       "value": "/th/"
     },
     {
+      "key": "/th/inventory-management-features-benefits",
+      "value": "/th/inventory-management-software/"
+    },
+    {
+      "key": "/th/inventory-management-features-benefits/",
+      "value": "/th/inventory-management-software/"
+    },
+    {
       "key": "/th/popia-policy",
       "value": "/popia-policy/"
     },
     {
       "key": "/th/popia-policy/",
       "value": "/popia-policy/"
+    },
+    {
+      "key": "/th/production-features-benefits",
+      "value": "/th/production-planning-software/"
+    },
+    {
+      "key": "/th/production-features-benefits/",
+      "value": "/th/production-planning-software/"
     },
     {
       "key": "/th/sql-tutorials",
