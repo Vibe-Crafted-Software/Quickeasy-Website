@@ -30,7 +30,7 @@ h1,h2,h3,h4{color:var(--ink);line-height:1.15;margin:0 0 .5em;font-weight:700;le
 p{margin:0 0 1em}
 :focus-visible{outline:2px solid var(--red);outline-offset:2px;border-radius:3px}
 ::selection{background:var(--red);color:#fff}
-.container{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.container{max-width:var(--maxw);margin:0 auto;padding:0 clamp(24px,4vw,44px)}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
 .gs{filter:grayscale(100%)}
 
@@ -80,6 +80,7 @@ p{margin:0 0 1em}
   .nav a{padding:12px 14px;font-size:16px;border-radius:6px}
   .nav .has-menu>a::after{margin-left:auto}
   .submenu{position:static;opacity:1;visibility:visible;transform:none;box-shadow:none;border:0;border-left:2px solid var(--line);border-radius:0;margin:0 0 6px 14px;padding:2px 0;display:none}
+  .submenu,.submenu--wide{min-width:0}
   .nav .has-menu.open>.submenu{display:block}
   .nav__cta{margin:10px 0 0}
 }

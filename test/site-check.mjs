@@ -279,6 +279,18 @@ test('F5 customer service page', () => {
 /* =========================================================================
    G. Design system assets
    ========================================================================= */
+// The side gutter must scale with the viewport. A flat value looks generous on a
+// wide screen and vanishes the moment the container stops being centred — which
+// is what it did at half-screen widths before this was a clamp().
+test('G0 container gutter is responsive, not a flat value', () => {
+  const css = read(path.join(ROOT, 'assets/css/main.css'));
+  const m = /\.container\{[^}]*padding:0 ([^;}]+)/.exec(css);
+  if (!m) return ['no .container padding rule'];
+  return /clamp\(|min\(|max\(|vw/.test(m[1])
+    ? []
+    : ['.container gutter is a flat ' + m[1] + ' — it collapses at mid widths'];
+});
+
 test('G1 main.css has the new components', () => {
   const css = read(path.join(ROOT, 'assets/css/main.css'));
   return ['.verticals', '.mod-card', '.price-card', '.currency-toggle', '.post-list', '.doc-mark', '.hero-mock']
