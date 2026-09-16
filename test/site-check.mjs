@@ -109,9 +109,11 @@ test('B3 footer present, Explore has Support and not Blog', () =>
     return errs;
   }));
 
-// The landing pages lost their site-wide nav link when Solutions was removed (B1).
-// The footer column is what replaces it — without it they fall back to their in-body
-// links alone, which for some of them is a handful. Guard the column and its contents.
+// The landing pages have no site-wide link any more: Solutions came out of the
+// nav (B1) and then out of the footer. What keeps them reachable is the in-body
+// mesh — blog posts, the homepage, and the pillar/cluster links between them.
+// That mesh is the thing worth guarding, not any particular chrome element:
+// a page with no inbound internal link gets no PageRank and is barely crawled.
 const SOLUTION_PAGES = [
   '/erp-software-south-africa/', '/erp-for-small-business/', '/manufacturing-erp/',
   '/mrp-software/', '/inventory-management-software/', '/production-planning-software/',
@@ -119,18 +121,20 @@ const SOLUTION_PAGES = [
   '/printing-signage-packaging/', '/print-estimating-software/', '/signage-software/',
   '/packaging-erp/',
 ];
+// Floor set well under the current minimum (8) so this catches a real regression
+// — a sweep stripping links, a batch of posts rewritten — not normal variation.
+const MIN_INBOUND = 4;
 
-test('B4 footer carries the Solutions column on every page', () =>
-  navPages.flatMap((p) => {
-    const th = p.rel.startsWith('th/');
-    if (!p.html.includes(`<h4>${th ? 'โซลูชัน' : 'Solutions'}</h4>`))
-      return ['no footer Solutions column: ' + p.rel];
-    // Thai points at /th/ counterparts where they exist, so only check the EN pages
-    // link the full set; both languages must at least have the column.
-    if (th) return [];
-    const missing = SOLUTION_PAGES.filter((u) => !p.html.includes(`href="${u}"`));
-    return missing.length ? [`${p.rel}: footer Solutions column missing ${missing.join(', ')}`] : [];
-  }));
+test('B4 every landing page keeps real in-body inbound links', () => {
+  const count = Object.fromEntries(SOLUTION_PAGES.map((u) => [u, 0]));
+  for (const p of pages) {
+    const main = p.html.slice(p.html.indexOf('<main'), p.html.indexOf('</main>'));
+    for (const u of SOLUTION_PAGES) if (main.includes(`href="${u}"`)) count[u]++;
+  }
+  return SOLUTION_PAGES
+    .filter((u) => count[u] < MIN_INBOUND)
+    .map((u) => `${u} has only ${count[u]} in-body inbound link(s), expected at least ${MIN_INBOUND}`);
+});
 
 /* =========================================================================
    C. Link integrity

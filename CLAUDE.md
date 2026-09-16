@@ -73,10 +73,12 @@ Skills are **drafting aids, not legal advice**; flag attorney review for legal p
 
 ### Landing pages
 
-The search-targeted landing pages used to hang off a **Solutions** dropdown. That
-dropdown is gone; the **footer carries a Solutions column on every page instead**, which
-is what keeps them internally linked (test **B4** enforces the column and its full link
-set). Two pillars, each linking down to its cluster:
+The search-targeted landing pages used to hang off a **Solutions** dropdown, then off a
+footer column. Both are gone — these pages now have **no site-wide chrome link at all**.
+What keeps them reachable is the **in-body mesh**: blog posts, the homepage, and the
+pillar/cluster links between them (minimum 8 inbound in-body links each; test **B4**
+fails under 4). Don't strip those links, and don't assume a footer link is backing them
+up. Two pillars, each linking down to its cluster:
 
 - `/manufacturing-erp/` → `/mrp-software/`, `/production-planning-software/`,
   `/job-costing-software/`, `/inventory-management-software/`
@@ -96,9 +98,9 @@ use each), for the marketing team. Same treatment as `/stylesheet/` — see belo
 
 ### The blog → product link mesh
 
-Blog posts carry contextual in-body links to these pages. The footer Solutions column
-already links every one from every page, so the value here is the **anchor text in a
-sentence**, which a footer link cannot give. Rules the sweep enforces, and any hand-edit
+Blog posts carry contextual in-body links to these pages. With no chrome link anywhere,
+this mesh is the *only* thing linking them — and it is the better kind anyway, because
+the **anchor text sits in a sentence**. Rules the sweep enforces, and any hand-edit
 should too: the anchor is a phrase **already in the prose** (never a sentence written to
 carry a link), it sits in a `<p>` or `<li>` and never a heading, one link per target per
 post, first relevant occurrence, and a per-post cap scaled to length (~3–10 contextual
@@ -184,8 +186,7 @@ This is a same-domain WordPress→static migration of an already-ranking site
   every Thai page's Blogs nav submenu + each post's "back to all blogs" link point at
   it. `/th/manufacturing-erp/` and `/th/printing-signage-packaging/` were rebuilt
   alongside their English pillars and are a **fresh machine draft not yet reviewed**;
-  the four newer English landing pages have no Thai version yet, so the Thai footer's
-  Solutions column links those to English. Thai marketing/blog copy is a machine-drafted
+  the four newer English landing pages have no Thai version yet. Thai marketing/blog copy is a machine-drafted
   first pass — **flag for
   native-speaker review** before launch. Thai contact (Thailand distribution partner): Vibe Crafted Software,
   Pattraporn (Nim) Thiamjai, info@vibecraftedsoftware.com, +66 (0) 92 849 4555.
