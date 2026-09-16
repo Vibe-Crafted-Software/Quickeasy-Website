@@ -53,3 +53,6 @@
 /inventory-management-features-benefits/      ->  /inventory-management-software/   # thin module page merged into the inventory landing page
 /production-features-benefits/                ->  /production-planning-software/    # thin module page merged into the production planning landing page
 /costing-features-benefits/                   ->  /job-costing-software/            # thin module page merged into the job costing landing page
+
+# --- Style guide folder renamed ---
+/style-sheet/                                 ->  /stylesheet/                      # unlisted style guide; redirect kept for bookmarked/typed old URLs

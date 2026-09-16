@@ -92,7 +92,7 @@ left intact — they are the internal-link mesh. Structure follows
 how it works → what's included → honest objections → CTA.
 
 `/landing/` is an **unlisted internal index** of them all (target query, intent, when to
-use each), for the marketing team. Same treatment as `/style-sheet/` — see below.
+use each), for the marketing team. Same treatment as `/stylesheet/` — see below.
 
 ## SEO / migration
 
@@ -166,7 +166,7 @@ This is a same-domain WordPress→static migration of an already-ranking site
   native-speaker review** before launch. Thai contact (Thailand distribution partner): Vibe Crafted Software,
   Pattraporn (Nim) Thiamjai, info@vibecraftedsoftware.com, +66 (0) 92 849 4555.
 
-## Unlisted pages (`/style-sheet/`, `/landing/`)
+## Unlisted pages (`/stylesheet/`, `/landing/`)
 
 Both are live, deliberately unlisted, and must stay that way: nothing links to them,
 they are `noindex,nofollow` (so `gen-sitemap.mjs` skips them), and neither carries
@@ -177,7 +177,7 @@ any sweep that adds links.
 
 - `/landing/` — the internal index of every landing page, with what each one targets and
   when to send a prospect to it. Update it whenever a landing page is added or retired.
-- `/style-sheet/` is a living style guide for `main.css` — every token, type
+- `/stylesheet/` is a living style guide for `main.css` — every token, type
   style and component rendered live, so both palettes can be checked by flipping
   the header theme toggle. Keep it current when adding a component.
 - Its swatch-grid CSS lives in a page-local `<style>` block rather than in
@@ -216,7 +216,7 @@ any sweep that adds links.
 - **`data-pagefind-body` on `<main>` is the opt-in marker** and does two jobs:
   it keeps nav/header/footer chrome out of every excerpt, and it excludes the
   pages that must never be indexed — `404.html`, the two search pages,
-  `/style-sheet/` and `/landing/`, which deliberately never carry it. Any new page
+  `/stylesheet/` and `/landing/`, which deliberately never carry it. Any new page
   needs it, or it will be unsearchable. The same `<main>` also carries
   **`data-pagefind-filter="section:…"`** — `Solutions` · `Pricing` · `Blog` ·
   `Support` · `Company`, localised on Thai pages (`โซลูชัน` · `ราคา` · `บล็อก` ·

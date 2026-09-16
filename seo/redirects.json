@@ -433,6 +433,14 @@
       "value": "/blog/"
     },
     {
+      "key": "/style-sheet",
+      "value": "/stylesheet/"
+    },
+    {
+      "key": "/style-sheet/",
+      "value": "/stylesheet/"
+    },
+    {
       "key": "/tech-specs",
       "value": "/"
     },
