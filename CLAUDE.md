@@ -189,9 +189,14 @@ any sweep that adds links.
   an overlay. Both are `noindex,follow` (Google advises against indexing internal
   search results) and are therefore skipped by `seo/gen-sitemap.mjs`, which now
   filters any page carrying a `noindex` robots meta.
-- The header carries a `.site-search` form on **every** page: a plain `GET` to
-  `/search/` (or `/th/search/` on Thai pages), so search works with JS off.
-  `main.js` only adds the `/` hotkey that focuses it.
+- The header carries a `.site-search` **icon link** on every page — a magnifier
+  pointing at `/search/` (or `/th/search/` on Thai pages), boxed exactly like the
+  `.theme-toggle` beside it. It replaced the in-bar field: the bar had no room for
+  an input anyone could type into. It is a plain `<a>`, so search still works with
+  JS off — you land on the search page, which has a real `GET` form. `main.js` adds
+  the `/` hotkey, which focuses the field when already on a search page and follows
+  the link otherwise. Icon-only, so it carries an `aria-label` (test N2 checks both
+  the target and the label).
 - `assets/js/search-page.js` runs on the search pages only. It dynamically imports
   `/pagefind/pagefind.js` and renders the results itself — the Pagefind **JS API**,
   not PagefindUI, so the markup uses our own tokens. UI strings live in a

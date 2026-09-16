@@ -662,12 +662,20 @@ test('N1 both search pages exist, are noindex, and carry the results markup', ()
     return errs;
   }));
 
-test('N2 every page has the header search form, pointing at its own language', () =>
+// The header carries an icon linking to the search page rather than a field —
+// the bar has no room for one. It stays a plain <a>, so search still works with
+// JavaScript off: you land on /search/, which has a real GET form.
+test('N2 every page has the header search link, pointing at its own language', () =>
   navPages.flatMap((p) => {
-    const m = /<form class="site-search" action="([^"]*)"/.exec(p.html);
-    if (!m) return ['no header search form: ' + p.rel];
+    const m = /<a class="site-search" href="([^"]*)"/.exec(p.html);
+    if (!m) return ['no header search link: ' + p.rel];
+    const errs = [];
     const want = p.rel.startsWith('th/') ? '/th/search/' : '/search/';
-    return m[1] === want ? [] : [`search form posts to ${m[1]}, expected ${want} (${p.rel})`];
+    if (m[1] !== want) errs.push(`search link points at ${m[1]}, expected ${want} (${p.rel})`);
+    // An icon-only control needs its own accessible name.
+    if (!/<a class="site-search"[^>]*aria-label="[^"]+"/.test(p.html))
+      errs.push('header search link has no aria-label: ' + p.rel);
+    return errs;
   }));
 
 test('N3 data-pagefind-body marks the indexable pages only', () => {
@@ -703,7 +711,7 @@ test('N4 search-page.js queries Pagefind; main.css and main.js carry the pieces'
   for (const c of ['.site-search', '.search-form', '.search-results', '.search-result', '.visually-hidden',
                    '.search-layout', '.search-filters', '.search-toolbar', '.search-sort'])
     if (!css.includes(c)) errs.push('main.css missing ' + c);
-  if (!read(path.join(ROOT, 'assets/js/main.js')).includes('site-search-input'))
+  if (!read(path.join(ROOT, 'assets/js/main.js')).includes('a.site-search'))
     errs.push('main.js has no "/" search shortcut');
   return errs;
 });

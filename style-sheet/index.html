@@ -98,10 +98,9 @@
 <header class="site-header">
   <div class="container site-header__bar">
     <a class="brand" href="/" aria-label="QuickEasy Software home"><img src="/assets/img/logo.png" alt="QuickEasy Software" width="150" height="40" /></a>
-    <form class="site-search" action="/search/" role="search">
-      <label class="visually-hidden" for="site-search-input">Search the site</label>
-      <input class="site-search__input" id="site-search-input" name="q" type="search" placeholder="Search…" autocomplete="off" />
-    </form>
+    <a class="site-search" href="/search/" aria-label="Search the site">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    </a>
     <button class="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false">
       <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
@@ -327,9 +326,13 @@
       <div class="sec-head">
         <p class="eyebrow">08 — Search</p>
         <h2 class="h2">Search components</h2>
-        <p class="lead">The header field is <code>.site-search</code>; the results page uses the blocks below.</p>
+        <p class="lead">The header affordance is <code>.site-search</code>, an icon link boxed like <code>.theme-toggle</code>; the results page uses the blocks below.</p>
       </div>
       <div class="sg-spec">
+        <div class="sg-row" style="margin-bottom:26px">
+          <a class="site-search" href="/search/" aria-label="Search the site demo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></a>
+          <span class="sg-note">Header search &mdash; <code>.site-search</code>. Same 38px box, border and hover as the theme toggle beside it in the bar. Icon-only, so it carries its own <code>aria-label</code>.</span>
+        </div>
         <form class="search-form" onsubmit="return false">
           <label class="visually-hidden" for="sg-search">Search demo</label>
           <input class="search-form__input" id="sg-search" type="search" placeholder="Search the site&hellip;" />

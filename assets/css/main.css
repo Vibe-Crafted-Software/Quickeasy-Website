@@ -44,8 +44,8 @@ p{margin:0 0 1em}
 .site-header{position:sticky;top:0;z-index:100;background:var(--surface);border-bottom:1px solid var(--line)}
 .site-header__bar{display:flex;align-items:center;justify-content:flex-start;height:var(--header-h);gap:20px}
 .brand{display:flex;align-items:center;flex:0 0 auto;margin-right:auto}
-/* order: brand (left) · search · nav · theme · lang · hamburger (right) */
-.site-search{order:1}.nav{order:2}.theme-toggle{order:3}.lang-toggle{order:4}.nav-toggle{order:5}
+/* order: brand (left) · nav · search · theme · lang · hamburger (right) */
+.nav{order:1}.site-search{order:2}.theme-toggle{order:3}.lang-toggle{order:4}.nav-toggle{order:5}
 .brand img{height:40px;width:auto}
 .nav{display:flex;align-items:center;gap:2px}
 .nav ul{list-style:none;margin:0;padding:0}
@@ -411,13 +411,30 @@ code{background:var(--paper);color:var(--red-dk);padding:.15em .4em;border-radiu
 /* ---------- site search (Pagefind) ----------
    Header form is a plain GET to /search/; the results page renders Pagefind's
    JS API output itself. Everything below is token-based so it themes. */
-.site-search{position:relative;flex:0 1 220px;min-width:0}
-.site-search__input{width:100%;height:38px;padding:0 12px;font:inherit;font-size:14px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);appearance:none}
-.site-search__input::placeholder{color:var(--muted)}
-.site-search__input:focus{outline:2px solid var(--ink);outline-offset:-1px;border-color:var(--ink)}
-.site-search__input::-webkit-search-cancel-button{filter:grayscale(100%)}
-@media (max-width:1040px){.site-search{flex-basis:150px}}
-@media (max-width:560px){.site-search{display:none}}
+/* The header's search affordance is an icon linking to /search/, not a field:
+   the bar has no room for an input anyone could actually type into once the nav,
+   theme toggle and language switch have had theirs. Boxed exactly like
+   .theme-toggle next to it, so the two read as a pair. Still works with JS off —
+   /search/ carries a real GET form. */
+.site-search{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:var(--radius);padding:8px;color:var(--ink-2);text-decoration:none;transition:color .2s,border-color .2s}
+.site-search:hover,.site-search:focus-visible{color:var(--red);border-color:var(--ink);text-decoration:none}
+.site-search svg{width:20px;height:20px;display:block}
+
+/* The search icon shows on phones, where the old field was hidden outright — so
+   the bar now carries brand + search + theme + language + hamburger on a 360px
+   screen. Tighten everything a notch rather than dropping a control. */
+@media (max-width:560px){
+  .site-header__bar{gap:8px}
+  .brand img{height:28px}
+  .site-search,.theme-toggle{padding:6px}
+  .site-search svg,.theme-toggle svg{width:18px;height:18px}
+  .lang-toggle{padding:6px 9px;font-size:12px}
+  .nav-toggle{padding:6px}
+  .nav-toggle svg{width:24px;height:24px}
+}
+@media (max-width:380px){
+  .site-header__bar{gap:6px;padding-left:14px;padding-right:14px}
+}
 
 .visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 

@@ -170,13 +170,14 @@
 })();
 
 /* ============================================
-   Site search shortcut. The header form is a plain GET to /search/, so
-   search works with JavaScript off; this only adds the "/" hotkey that
-   focuses it from anywhere, unless focus is already in a field.
+   Site search shortcut. The header affordance is a plain link to /search/, so
+   search works with JavaScript off; this only adds the "/" hotkey, which jumps
+   to the field when already on the search page and follows the link otherwise.
+   Ignored when focus is already in a field, so "/" can still be typed.
    ============================================ */
 (function () {
-  var input = document.getElementById("site-search-input");
-  if (!input) return;
+  var link = document.querySelector("a.site-search");
+  if (!link) return;
 
   document.addEventListener("keydown", function (event) {
     if (event.key !== "/" || event.metaKey || event.ctrlKey || event.altKey) return;
@@ -184,6 +185,8 @@
     var tag = active && active.tagName;
     if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || (active && active.isContentEditable)) return;
     event.preventDefault();
-    input.focus();
+    var field = document.getElementById("search-input");
+    if (field) field.focus();
+    else window.location.href = link.getAttribute("href");
   });
 })();
