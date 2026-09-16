@@ -12,6 +12,10 @@
   --shadow-sm:0 1px 2px rgba(45,41,38,.05);
   --shadow:0 1px 2px rgba(45,41,38,.05),0 14px 34px -22px rgba(45,41,38,.30);
   --header-h:74px;
+  /* Height of the small square-ish header controls (search, theme, language),
+     so they line up regardless of whether their content is a 20px glyph or
+     13px of text. */
+  --ctl-h:38px;
   --font:"Open Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
 }
 html[lang="th"]{--font:"Noto Sans Thai","Open Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
@@ -352,6 +356,7 @@ code{background:var(--paper);color:var(--red-dk);padding:.15em .4em;border-radiu
 .theme-toggle .icon-sun{display:none}
 .lang-toggle{display:inline-flex;align-items:center;padding:8px 12px;border:1px solid var(--line);border-radius:var(--radius);color:var(--ink-2);font-weight:700;font-size:13px;line-height:1;text-decoration:none;white-space:nowrap}
 .lang-toggle:hover{color:var(--red);border-color:var(--ink);text-decoration:none}
+.site-search,.theme-toggle,.lang-toggle{height:var(--ctl-h)}
 :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
 :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline}
 
@@ -423,6 +428,7 @@ code{background:var(--paper);color:var(--red-dk);padding:.15em .4em;border-radiu
    the bar now carries brand + search + theme + language + hamburger on a 360px
    screen. Tighten everything a notch rather than dropping a control. */
 @media (max-width:560px){
+  :root{--ctl-h:32px}
   .site-header__bar{gap:8px}
   .brand img{height:28px}
   .site-search,.theme-toggle{padding:6px}

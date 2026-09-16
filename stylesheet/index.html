@@ -386,6 +386,7 @@
           <li><strong><code>.gs</code></strong> — grayscales an image. Site imagery is grayscale; the QuickEasy logo stays in colour.</li>
           <li><strong><code>.visually-hidden</code> / <code>.sr-only</code></strong> — hides a label visually while leaving it for screen readers.</li>
           <li><strong><code>.table-wrap</code></strong> — wraps a wide table so it scrolls horizontally instead of the page doing so.</li>
+          <li><strong><code>--ctl-h</code></strong> — the height of the small header controls (search, theme toggle, language switch). They set <code>height:var(--ctl-h)</code> rather than sizing to their content, so a 20px glyph and 13px of text still line up. It steps down on narrow screens; change it there, not per control.</li>
         </ul>
         <p class="sg-note" style="margin-top:18px">New components must use the tokens above — never hardcode a light colour, or it will not theme. The header and footer are duplicated into every page, so change them with a one-off Node sweep, not by hand.</p>
       </div>
