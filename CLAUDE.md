@@ -62,13 +62,37 @@ Skills are **drafting aids, not legal advice**; flag attorney review for legal p
 
 ## Information architecture
 
-- Top nav: Home · Pricing · Apps · Blogs · **Support** (Documentation, Customer Service) ·
-  About · Contact · [Book a Demo]. The old **Products** and **Resources** menus were removed.
+- Top nav: Home · Pricing · Blogs · **Support** (Documentation, Customer Service) ·
+  About · [Contact us]. The old **Products**, **Resources**, **Apps** and **Solutions**
+  menus were all removed — tests B1 and F2 fail if any of them comes back.
 - Blogs menu = 8 topic anchors into `/blog/` + **All Blogs**. Blog posts keep their
   date-based URLs (`/YYYY/MM/DD/slug/`) — an intentional, redirect-backed exception to the
   build-standard's nav-mirrored folders, to preserve SEO. Do not move them.
 - Removed pages (Products pages, referral partner, Resources tutorials, `/articles/`,
   legacy flat posts/author archives) are 301-redirected in `SITE-REDIRECTS.txt`.
+
+### Landing pages
+
+The search-targeted landing pages used to hang off a **Solutions** dropdown. That
+dropdown is gone; the **footer carries a Solutions column on every page instead**, which
+is what keeps them internally linked (test **B4** enforces the column and its full link
+set). Two pillars, each linking down to its cluster:
+
+- `/manufacturing-erp/` → `/mrp-software/`, `/production-planning-software/`,
+  `/job-costing-software/`, `/inventory-management-software/`
+- `/printing-signage-packaging/` → `/print-estimating-software/`, `/signage-software/`,
+  `/packaging-erp/`
+
+Plus `/erp-software-south-africa/`, `/erp-for-small-business/` and
+`/estimating-and-quoting-features-benefits/`. House rules for these pages: **no images**,
+no fabricated proof (no invented logos, testimonials or statistics), every claim traceable
+to a real BOS module or a published price, one primary CTA, and the "Related" sections
+left intact — they are the internal-link mesh. Structure follows
+`web-builder-skills:website-sales-tool`: hero → problem cards → matching solution cards →
+how it works → what's included → honest objections → CTA.
+
+`/landing/` is an **unlisted internal index** of them all (target query, intent, when to
+use each), for the marketing team. Same treatment as `/style-sheet/` — see below.
 
 ## SEO / migration
 
@@ -134,19 +158,28 @@ This is a same-domain WordPress→static migration of an already-ranking site
   `/th/YYYY/MM/DD/slug/` URLs, mirroring the English structure; `/th/blog/` mirrors
   `/blog/`'s 8 topic categories, reusing each post's already-translated title/date, and
   every Thai page's Blogs nav submenu + each post's "back to all blogs" link point at
-  it. Thai marketing/blog copy is a machine-drafted first pass — **flag for
+  it. `/th/manufacturing-erp/` and `/th/printing-signage-packaging/` were rebuilt
+  alongside their English pillars and are a **fresh machine draft not yet reviewed**;
+  the four newer English landing pages have no Thai version yet, so the Thai footer's
+  Solutions column links those to English. Thai marketing/blog copy is a machine-drafted
+  first pass — **flag for
   native-speaker review** before launch. Thai contact (Thailand distribution partner): Vibe Crafted Software,
   Pattraporn (Nim) Thiamjai, info@vibecraftedsoftware.com, +66 (0) 92 849 4555.
 
-## Style sheet (unlisted)
+## Unlisted pages (`/style-sheet/`, `/landing/`)
 
+Both are live, deliberately unlisted, and must stay that way: nothing links to them,
+they are `noindex,nofollow` (so `gen-sitemap.mjs` skips them), and neither carries
+`data-pagefind-body`, so site search never returns them (test N3 would fail if it did).
+They *do* keep their Organization + BreadcrumbList JSON-LD, because test I5 wants a graph
+on every page. Reach them by typing the URL. Don't add either to the nav, the footer, or
+any sweep that adds links.
+
+- `/landing/` — the internal index of every landing page, with what each one targets and
+  when to send a prospect to it. Update it whenever a landing page is added or retired.
 - `/style-sheet/` is a living style guide for `main.css` — every token, type
   style and component rendered live, so both palettes can be checked by flipping
   the header theme toggle. Keep it current when adding a component.
-- **It is deliberately unlisted and must stay that way**: nothing links to it,
-  it is `noindex,nofollow` (so `gen-sitemap.mjs` skips it), and it has no
-  `data-pagefind-body`, so site search never returns it. Reach it by typing the
-  URL. Don't add it to the nav, the footer, or any sweep that adds links.
 - Its swatch-grid CSS lives in a page-local `<style>` block rather than in
   `main.css` — no visitor-facing page needs those rules.
 

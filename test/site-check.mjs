@@ -87,8 +87,11 @@ test('A4 every page has lang, <title> and viewport', () =>
    ========================================================================= */
 test('B0 nav pages exist', () => (navPages.length > 0 ? [] : ['no pages contain id="site-nav"']));
 
-test('B1 no removed menus (Products / Resources)', () =>
-  navPages.filter((p) => />Products<|>Resources<|>All articles</.test(p.html))
+// Solutions joined Products/Resources here: the dropdown was removed from the top
+// nav and its pages moved to a footer column (B4), the same way F2 guards Apps.
+// Match the nav item itself — the footer column heading is also ">Solutions<".
+test('B1 no removed menus (Products / Resources / Solutions)', () =>
+  navPages.filter((p) => />Products<|>Resources<|>All articles<|aria-haspopup="true">(?:Solutions|โซลูชัน)</.test(p.html))
           .map((p) => 'stale menu item in ' + p.rel));
 
 const enNavPages = navPages.filter((p) => !p.rel.startsWith('th/'));
@@ -104,6 +107,29 @@ test('B3 footer present, Explore has Support and not Blog', () =>
     if (!p.html.includes('<li><a href="/support/">Support</a></li>')) errs.push('no footer Support: ' + p.rel);
     if (p.html.includes('<li><a href="/blog/">Blog</a></li>')) errs.push('footer still has Blog: ' + p.rel);
     return errs;
+  }));
+
+// The landing pages lost their site-wide nav link when Solutions was removed (B1).
+// The footer column is what replaces it — without it they fall back to their in-body
+// links alone, which for some of them is a handful. Guard the column and its contents.
+const SOLUTION_PAGES = [
+  '/erp-software-south-africa/', '/erp-for-small-business/', '/manufacturing-erp/',
+  '/mrp-software/', '/inventory-management-software/', '/production-planning-software/',
+  '/job-costing-software/', '/estimating-and-quoting-features-benefits/',
+  '/printing-signage-packaging/', '/print-estimating-software/', '/signage-software/',
+  '/packaging-erp/',
+];
+
+test('B4 footer carries the Solutions column on every page', () =>
+  navPages.flatMap((p) => {
+    const th = p.rel.startsWith('th/');
+    if (!p.html.includes(`<h4>${th ? 'โซลูชัน' : 'Solutions'}</h4>`))
+      return ['no footer Solutions column: ' + p.rel];
+    // Thai points at /th/ counterparts where they exist, so only check the EN pages
+    // link the full set; both languages must at least have the column.
+    if (th) return [];
+    const missing = SOLUTION_PAGES.filter((u) => !p.html.includes(`href="${u}"`));
+    return missing.length ? [`${p.rel}: footer Solutions column missing ${missing.join(', ')}`] : [];
   }));
 
 /* =========================================================================
