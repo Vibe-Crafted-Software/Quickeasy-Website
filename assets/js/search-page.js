@@ -25,6 +25,10 @@
   var filtersList = document.getElementById('search-filters-list');
   var clearBtn = document.getElementById('search-filters-clear');
   var sortSelect = document.getElementById('search-sort');
+  var sortLabel = document.getElementById('search-sort-label');
+  var emptyEl = document.getElementById('search-empty');
+  var emptyTitle = document.getElementById('search-empty-title');
+  var emptyText = document.getElementById('search-empty-text');
   if (!form || !input || !resultsEl) return;
 
   var T = JSON.parse(document.getElementById('search-strings').textContent);
@@ -179,6 +183,16 @@
       a.className = 'search-result';
       a.href = r.url;
 
+      // Section first, as a badge — it tells you what kind of page this is
+      // before you read the title, which is what you scan a result list for.
+      var section = r.filters && r.filters.section && r.filters.section[0];
+      if (section) {
+        var tag = document.createElement('span');
+        tag.className = 'badge search-result__section';
+        tag.textContent = section;
+        a.appendChild(tag);
+      }
+
       var title = document.createElement('h2');
       title.className = 'search-result__title';
       title.textContent = (r.meta && r.meta.title) || r.url;
@@ -186,15 +200,7 @@
 
       var url = document.createElement('span');
       url.className = 'search-result__url';
-      var section = r.filters && r.filters.section && r.filters.section[0];
-      if (section) {
-        var tag = document.createElement('span');
-        tag.className = 'search-result__section';
-        tag.textContent = section;
-        url.appendChild(tag);
-        url.appendChild(document.createTextNode(' · '));
-      }
-      url.appendChild(document.createTextNode(r.url));
+      url.textContent = r.url;
       a.appendChild(url);
 
       if (r.excerpt) {
@@ -214,6 +220,22 @@
 
   var run = 0;   // results arrive out of order while typing; only the last wins
 
+  // The panel under the results does double duty: topic shortcuts before anyone
+  // has typed, and the same shortcuts with a different heading when a query
+  // returns nothing. Either way the page is never a heading above white space.
+  function showPanel(kind) {
+    if (!emptyEl) return;
+    if (!kind) { emptyEl.hidden = true; return; }
+    if (emptyTitle) emptyTitle.textContent = kind === 'none' ? T.noneTitle : T.emptyTitle;
+    if (emptyText) emptyText.textContent = kind === 'none' ? T.noneText : T.emptyText;
+    emptyEl.hidden = false;
+  }
+
+  // Sorting nothing is a control that looks broken.
+  function showSort(on) {
+    if (sortLabel) sortLabel.hidden = !on;
+  }
+
   function search(state) {
     syncControls(state);
 
@@ -223,6 +245,8 @@
       resultsEl.innerHTML = '';
       document.title = T.title;
       updateCounts({});
+      showSort(false);
+      showPanel('idle');
       return;
     }
 
@@ -236,6 +260,8 @@
       if (mine !== run) return;
       if (!pagefind) {
         statusEl.textContent = T.unavailable;
+        showSort(false);
+        showPanel('idle');
         return;
       }
       return pagefind
@@ -252,6 +278,8 @@
           statusEl.textContent = results.length
             ? (results.length === 1 ? T.one : T.many.replace('%d', results.length))
             : T.none.replace('%s', state.q);
+          showSort(results.length > 1);
+          showPanel(results.length ? null : 'none');
           render(sortResults(results, state.sort));
         });
     });

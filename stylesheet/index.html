@@ -117,11 +117,13 @@
 <main>
 
   <section class="hero hero--sub">
-    <div class="container">
-      <p class="eyebrow">Internal reference</p>
-      <h1>Style sheet</h1>
-      <p class="lead">Every token and component in <code>assets/css/main.css</code>, rendered live. Flip the theme toggle in the header to check both palettes.</p>
-      <p>This page is deliberately unlisted — nothing links to it, it is <code>noindex</code> so it stays out of <code>sitemap.xml</code>, and it carries no <code>data-pagefind-body</code>, so site search will never return it.</p>
+    <div class="container hero-grid">
+      <div>
+        <p class="eyebrow">Internal reference</p>
+        <h1>Style sheet</h1>
+        <p class="lead">Every token and component in <code>assets/css/main.css</code>, rendered live. Flip the theme toggle in the header to check both palettes.</p>
+        <p>This page is deliberately unlisted — nothing links to it, it is <code>noindex</code> so it stays out of <code>sitemap.xml</code>, and it carries no <code>data-pagefind-body</code>, so site search will never return it.</p>
+      </div>
     </div>
   </section>
 
@@ -335,7 +337,10 @@
         </div>
         <form class="search-form" onsubmit="return false">
           <label class="visually-hidden" for="sg-search">Search demo</label>
-          <input class="search-form__input" id="sg-search" type="search" placeholder="Search the site&hellip;" />
+          <span class="search-form__field">
+            <svg class="search-form__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input class="search-form__input" id="sg-search" type="search" placeholder="Search the site&hellip;" />
+          </span>
           <button class="btn btn--primary" type="submit">Search</button>
         </form>
         <div class="search-layout" style="margin-top:26px">
@@ -360,10 +365,21 @@
             </div>
             <div class="search-results">
               <a class="search-result" href="#">
+                <span class="badge search-result__section">Solutions</span>
                 <h2 class="search-result__title">A result title</h2>
-                <span class="search-result__url"><span class="search-result__section">Solutions</span> &middot; /a/result/url/</span>
+                <span class="search-result__url">/a/result/url/</span>
                 <p class="search-result__excerpt">The excerpt Pagefind returns, with its own <mark>highlighted</mark> match inside it.</p>
               </a>
+            </div>
+            <div class="search-empty" style="margin-top:18px">
+              <h2>Start with a topic</h2>
+              <p>The idle state, and — with a different heading from the strings block — the &ldquo;nothing matched&rdquo; state too, so the page is never a heading above white space.</p>
+              <div class="btn-row btn-row--center" style="flex-wrap:wrap">
+                <a class="badge" href="#">Manufacturing ERP</a>
+                <a class="badge" href="#">Pricing</a>
+                <a class="badge" href="#">All blogs</a>
+              </div>
+              <p class="search-empty__hint">Tip: press <kbd>/</kbd> anywhere on the site to jump to search.</p>
             </div>
           </div>
         </div>

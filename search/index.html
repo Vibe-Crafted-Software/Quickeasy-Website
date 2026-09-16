@@ -109,13 +109,19 @@
 <main>
 
   <section class="hero hero--sub">
-    <div class="container">
-      <h1 id="search-heading">Search</h1>
-      <form class="search-form" id="search-form" role="search">
-        <label class="visually-hidden" for="search-input">Search the site</label>
-        <input class="search-form__input" id="search-input" name="q" type="search" placeholder="Search the site…" autocomplete="off" autofocus />
-        <button class="btn btn--primary" type="submit">Search</button>
-      </form>
+    <div class="container hero-grid">
+      <div>
+        <h1 id="search-heading">Search</h1>
+        <p class="lead">Every page on the site — products, pricing, documentation and 112 blog posts.</p>
+        <form class="search-form" id="search-form" role="search">
+          <label class="visually-hidden" for="search-input">Search the site</label>
+          <span class="search-form__field">
+            <svg class="search-form__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input class="search-form__input" id="search-input" name="q" type="search" placeholder="Search the site…" autocomplete="off" autofocus />
+          </span>
+          <button class="btn btn--primary" type="submit">Search</button>
+        </form>
+      </div>
     </div>
   </section>
 
@@ -135,7 +141,9 @@
       <div class="search-main">
         <div class="search-toolbar">
           <p class="search-status" id="search-status" role="status" aria-live="polite"></p>
-          <label class="search-sort" for="search-sort">Sort by
+          <!-- Sorting nothing is a control that looks broken, so it stays hidden
+               until there are results to sort. -->
+          <label class="search-sort" id="search-sort-label" for="search-sort" hidden>Sort by
             <select id="search-sort">
               <option value="relevance">Relevance</option>
               <option value="title">Title (A–Z)</option>
@@ -144,6 +152,24 @@
         </div>
 
         <div class="search-results" id="search-results"></div>
+
+        <!-- Serves both the idle state and "nothing matched"; search-page.js
+             swaps the heading and the line under it. In the markup rather than
+             built by JS, so it is there before the index loads and without JS. -->
+        <div class="search-empty" id="search-empty">
+          <h2 id="search-empty-title">Start with a topic</h2>
+          <p id="search-empty-text">Type above, or jump straight into one of the areas people search for most.</p>
+          <div class="btn-row btn-row--center" style="flex-wrap:wrap">
+            <a class="badge" href="/manufacturing-erp/">Manufacturing ERP</a>
+            <a class="badge" href="/printing-signage-packaging/">Print, Signage &amp; Packaging</a>
+            <a class="badge" href="/inventory-management-software/">Inventory</a>
+            <a class="badge" href="/production-planning-software/">Production planning</a>
+            <a class="badge" href="/job-costing-software/">Job costing</a>
+            <a class="badge" href="/pricing/">Pricing</a>
+            <a class="badge" href="/blog/">All blogs</a>
+          </div>
+          <p class="search-empty__hint">Tip: press <kbd>/</kbd> anywhere on the site to jump to search.</p>
+        </div>
 
         <noscript>
           <p>Site search needs JavaScript. Every page is still reachable from the menu above.</p>
@@ -154,7 +180,7 @@
   </section>
 
 </main>
-<script type="application/json" id="search-strings">{"title":"Search - QuickEasy Software","titleSuffix":" - QuickEasy Software","heading":"Search","resultsFor":"Results for “%s”","prompt":"Type a search term above to search every page on this site.","searching":"Searching…","one":"1 result.","many":"%d results.","none":"No results for “%s”. Try a different or more general term.","unavailable":"Search is unavailable right now. Please try again later.","sectionOrder":["Solutions","Pricing","Blog","Support","Company"]}</script>
+<script type="application/json" id="search-strings">{"title":"Search - QuickEasy Software","titleSuffix":" - QuickEasy Software","heading":"Search","resultsFor":"Results for “%s”","prompt":"Type a search term above to search every page on this site.","searching":"Searching…","one":"1 result.","many":"%d results.","none":"No results for “%s”. Try a different or more general term.","unavailable":"Search is unavailable right now. Please try again later.","sectionOrder":["Solutions","Pricing","Blog","Support","Company"],"emptyTitle":"Start with a topic","emptyText":"Type above, or jump straight into one of the areas people search for most.","noneTitle":"Nothing matched that.","noneText":"Try a broader word, check the spelling, or pick a topic below."}</script>
 <footer class="site-footer">
   <div class="container">
     <div class="footer-grid">

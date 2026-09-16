@@ -88,8 +88,9 @@ test('A4 every page has lang, <title> and viewport', () =>
 test('B0 nav pages exist', () => (navPages.length > 0 ? [] : ['no pages contain id="site-nav"']));
 
 // Solutions joined Products/Resources here: the dropdown was removed from the top
-// nav and its pages moved to a footer column (B4), the same way F2 guards Apps.
-// Match the nav item itself — the footer column heading is also ">Solutions<".
+// nav, the same way F2 guards Apps. Its pages went to a footer column and then
+// lost that too — B4 now guards what actually keeps them reachable.
+// Match the nav item itself, not a bare ">Solutions<" that copy could contain.
 test('B1 no removed menus (Products / Resources / Solutions)', () =>
   navPages.filter((p) => />Products<|>Resources<|>All articles<|aria-haspopup="true">(?:Solutions|โซลูชัน)</.test(p.html))
           .map((p) => 'stale menu item in ' + p.rel));
@@ -656,6 +657,13 @@ test('N1 both search pages exist, are noindex, and carry the results markup', ()
     if (!/id="search-filters-clear"/.test(p.html)) errs.push('no clear-filters button: ' + r);
     if (!/id="search-sort"/.test(p.html)) errs.push('no sort control: ' + r);
     if (!/<noscript>/.test(p.html)) errs.push('no noscript fallback: ' + r);
+    // The idle / no-results panel. It lives in the markup rather than being
+    // built by JS so it is there before the index loads, and it is what stops
+    // the page being a heading above white space.
+    if (!/id="search-empty-title"/.test(p.html) || !/id="search-empty-text"/.test(p.html))
+      errs.push('no idle/no-results panel: ' + r);
+    if (!/class="hero hero--sub"[\s\S]{0,200}hero-grid/.test(p.html))
+      errs.push('hero has no .hero-grid, so it renders with no vertical padding: ' + r);
     try {
       const strings = JSON.parse(/id="search-strings">([\s\S]*?)<\/script>/.exec(p.html)[1]);
       // sectionOrder is the one string the script reads rather than the markup;
@@ -713,7 +721,8 @@ test('N4 search-page.js queries Pagefind; main.css and main.js carry the pieces'
   if (!/history\[replace \? 'replaceState' : 'pushState'\]/.test(src)) errs.push('search-page.js does not keep the query in the URL');
   const css = read(path.join(ROOT, 'assets/css/main.css'));
   for (const c of ['.site-search', '.search-form', '.search-results', '.search-result', '.visually-hidden',
-                   '.search-layout', '.search-filters', '.search-toolbar', '.search-sort'])
+                   '.search-layout', '.search-filters', '.search-toolbar', '.search-sort',
+                   '.search-form__field', '.search-form__icon', '.search-empty'])
     if (!css.includes(c)) errs.push('main.css missing ' + c);
   if (!read(path.join(ROOT, 'assets/js/main.js')).includes('a.site-search'))
     errs.push('main.js has no "/" search shortcut');

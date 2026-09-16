@@ -109,13 +109,19 @@
 <main>
 
   <section class="hero hero--sub">
-    <div class="container">
-      <h1 id="search-heading">ค้นหา</h1>
-      <form class="search-form" id="search-form" role="search">
-        <label class="visually-hidden" for="search-input">ค้นหาในเว็บไซต์</label>
-        <input class="search-form__input" id="search-input" name="q" type="search" placeholder="ค้นหาในเว็บไซต์…" autocomplete="off" autofocus />
-        <button class="btn btn--primary" type="submit">ค้นหา</button>
-      </form>
+    <div class="container hero-grid">
+      <div>
+        <h1 id="search-heading">ค้นหา</h1>
+        <p class="lead">ทุกหน้าในเว็บไซต์ — ผลิตภัณฑ์ ราคา เอกสารประกอบ และบทความ 112 เรื่อง</p>
+        <form class="search-form" id="search-form" role="search">
+          <label class="visually-hidden" for="search-input">ค้นหาในเว็บไซต์</label>
+          <span class="search-form__field">
+            <svg class="search-form__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input class="search-form__input" id="search-input" name="q" type="search" placeholder="ค้นหาในเว็บไซต์…" autocomplete="off" autofocus />
+          </span>
+          <button class="btn btn--primary" type="submit">ค้นหา</button>
+        </form>
+      </div>
     </div>
   </section>
 
@@ -135,7 +141,9 @@
       <div class="search-main">
         <div class="search-toolbar">
           <p class="search-status" id="search-status" role="status" aria-live="polite"></p>
-          <label class="search-sort" for="search-sort">เรียงตาม
+          <!-- Sorting nothing is a control that looks broken, so it stays hidden
+               until there are results to sort. -->
+          <label class="search-sort" id="search-sort-label" for="search-sort" hidden>เรียงตาม
             <select id="search-sort">
               <option value="relevance">ความเกี่ยวข้อง</option>
               <option value="title">ชื่อเรื่อง (ก–ฮ)</option>
@@ -144,6 +152,24 @@
         </div>
 
         <div class="search-results" id="search-results"></div>
+
+        <!-- Serves both the idle state and "nothing matched"; search-page.js
+             swaps the heading and the line under it. In the markup rather than
+             built by JS, so it is there before the index loads and without JS. -->
+        <div class="search-empty" id="search-empty">
+          <h2 id="search-empty-title">เริ่มจากหัวข้อ</h2>
+          <p id="search-empty-text">พิมพ์คำค้นหาด้านบน หรือเลือกหัวข้อที่มีผู้ค้นหามากที่สุด</p>
+          <div class="btn-row btn-row--center" style="flex-wrap:wrap">
+            <a class="badge" href="/th/manufacturing-erp/">ERP สำหรับการผลิต</a>
+            <a class="badge" href="/th/printing-signage-packaging/">การพิมพ์ ป้าย และบรรจุภัณฑ์</a>
+            <a class="badge" href="/th/inventory-management-features-benefits/">สินค้าคงคลัง</a>
+            <a class="badge" href="/th/production-features-benefits/">การวางแผนการผลิต</a>
+            <a class="badge" href="/th/costing-features-benefits/">การคิดต้นทุนงาน</a>
+            <a class="badge" href="/th/pricing/">ราคา</a>
+            <a class="badge" href="/th/blog/">บทความทั้งหมด</a>
+          </div>
+          <p class="search-empty__hint">เคล็ดลับ: กด <kbd>/</kbd> จากหน้าใดก็ได้เพื่อไปที่ช่องค้นหา</p>
+        </div>
 
         <noscript>
           <p>ระบบค้นหาต้องใช้ JavaScript ทุกหน้ายังเข้าถึงได้จากเมนูด้านบน</p>
@@ -154,7 +180,7 @@
   </section>
 
 </main>
-<script type="application/json" id="search-strings">{"title":"ค้นหา - QuickEasy Software","titleSuffix":" - QuickEasy Software","heading":"ค้นหา","resultsFor":"ผลการค้นหาสำหรับ “%s”","prompt":"พิมพ์คำค้นหาด้านบนเพื่อค้นหาทุกหน้าในเว็บไซต์นี้","searching":"กำลังค้นหา…","one":"พบ 1 รายการ","many":"พบ %d รายการ","none":"ไม่พบผลลัพธ์สำหรับ “%s” ลองใช้คำอื่นหรือคำที่กว้างขึ้น","unavailable":"ระบบค้นหาไม่พร้อมใช้งานในขณะนี้ กรุณาลองใหม่อีกครั้ง","sectionOrder":["โซลูชัน","ราคา","บล็อก","ฝ่ายสนับสนุน","บริษัท"]}</script>
+<script type="application/json" id="search-strings">{"title":"ค้นหา - QuickEasy Software","titleSuffix":" - QuickEasy Software","heading":"ค้นหา","resultsFor":"ผลการค้นหาสำหรับ “%s”","prompt":"พิมพ์คำค้นหาด้านบนเพื่อค้นหาทุกหน้าในเว็บไซต์นี้","searching":"กำลังค้นหา…","one":"พบ 1 รายการ","many":"พบ %d รายการ","none":"ไม่พบผลลัพธ์สำหรับ “%s” ลองใช้คำอื่นหรือคำที่กว้างขึ้น","unavailable":"ระบบค้นหาไม่พร้อมใช้งานในขณะนี้ กรุณาลองใหม่อีกครั้ง","sectionOrder":["โซลูชัน","ราคา","บล็อก","ฝ่ายสนับสนุน","บริษัท"],"emptyTitle":"เริ่มจากหัวข้อ","emptyText":"พิมพ์คำค้นหาด้านบน หรือเลือกหัวข้อที่มีผู้ค้นหามากที่สุด","noneTitle":"ไม่พบผลลัพธ์ที่ตรงกัน","noneText":"ลองใช้คำที่กว้างขึ้น ตรวจสอบตัวสะกด หรือเลือกหัวข้อด้านล่าง"}</script>
 <footer class="site-footer">
   <div class="container">
     <div class="footer-grid">
