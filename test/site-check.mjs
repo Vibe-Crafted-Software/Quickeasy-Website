@@ -439,6 +439,19 @@ test('J1 every nav page has a theme toggle', () =>
   navPages.filter((p) => !p.html.includes('class="theme-toggle"'))
           .map((p) => 'no theme toggle: ' + p.rel));
 
+// The hamburger carries a visible "Menu" caption. It is hidden below 420px to
+// save bar width, which is why the button keeps its own aria-label rather than
+// taking its accessible name from the caption — check both survive.
+test('J1b every nav page has the labelled menu button', () =>
+  navPages.flatMap((p) => {
+    const errs = [];
+    const m = /<button class="nav-toggle"([^>]*)>/.exec(p.html);
+    if (!m) return ['no menu button: ' + p.rel];
+    if (!/aria-label="[^"]+"/.test(m[1])) errs.push('menu button has no aria-label: ' + p.rel);
+    if (!/class="nav-toggle__label"[^>]*>[^<]+</.test(p.html)) errs.push('menu button has no visible caption: ' + p.rel);
+    return errs;
+  }));
+
 test('J2 every page has the theme-init script before main.css', () =>
   indexPages.flatMap((p) => {
     const s = p.html.indexOf("localStorage.getItem('theme')");

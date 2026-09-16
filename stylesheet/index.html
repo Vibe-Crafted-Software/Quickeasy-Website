@@ -34,6 +34,10 @@
   .sg-spec{max-width:820px;margin:0 auto}
   .sg-spec code{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:1px 6px;font-size:13px;color:var(--ink)}
   .sg-band{padding:14px 16px;border:1px solid var(--line);border-radius:var(--radius);font-size:14px;color:var(--body)}
+  /* Documentation, not a landing page: the hero reads left, like the nine
+     section heads under it, instead of sitting centred above them. */
+  .hero--sub .hero-grid{text-align:left}
+  .hero--sub .hero-grid>div{margin-left:0}
 </style>
 <script type="application/ld+json">
 {
@@ -107,6 +111,7 @@
     </button>
     <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <span class="nav-toggle__label" aria-hidden="true">Menu</span>
     </button>
     <nav class="nav" id="site-nav" aria-label="Main">
       <ul style="display:contents"><li><a href="/">Home</a></li><li><a href="/pricing/">Pricing</a></li><li class="has-menu"><a href="#" aria-haspopup="true">Blogs</a><ul class="submenu submenu--wide"><li><a href="/blog/#erp-business-systems">ERP &amp; Business Systems</a></li><li><a href="/blog/#production-manufacturing">Production &amp; Manufacturing</a></li><li><a href="/blog/#inventory-procurement">Inventory &amp; Procurement</a></li><li><a href="/blog/#financial-accounting">Financial &amp; Accounting</a></li><li><a href="/blog/#sales-crm-service">Sales, CRM &amp; Service</a></li><li><a href="/blog/#industries-verticals">Industries &amp; Verticals</a></li><li><a href="/blog/#cloud-data-technology">Cloud, Data &amp; Technology</a></li><li><a href="/blog/#business-growth-leadership">Business Growth &amp; Leadership</a></li><li><a href="/blog/">All Blogs</a></li></ul></li><li class="has-menu"><a href="#" aria-haspopup="true">Support</a><ul class="submenu"><li><a href="/documentation/">Documentation</a></li><li><a href="/support/">Customer Service</a></li></ul></li><li><a href="/about-us/">About</a></li></ul>
@@ -402,7 +407,9 @@
           <li><strong><code>.gs</code></strong> — grayscales an image. Site imagery is grayscale; the QuickEasy logo stays in colour.</li>
           <li><strong><code>.visually-hidden</code> / <code>.sr-only</code></strong> — hides a label visually while leaving it for screen readers.</li>
           <li><strong><code>.table-wrap</code></strong> — wraps a wide table so it scrolls horizontally instead of the page doing so.</li>
-          <li><strong><code>--ctl-h</code></strong> — the height of the small header controls (search, theme toggle, language switch). They set <code>height:var(--ctl-h)</code> rather than sizing to their content, so a 20px glyph and 13px of text still line up. It steps down on narrow screens; change it there, not per control.</li>
+          <li><strong><code>--ctl-h</code></strong> — the height of the small header controls (search, theme toggle, language switch, menu button). They set <code>height:var(--ctl-h)</code> rather than sizing to their content, so a 20px glyph and 13px of text still line up. It steps down on narrow screens; change it there, not per control.</li>
+          <li><strong><code>.nav-toggle</code></strong> — the menu button, shown below 1040px. It carries a visible <code>.nav-toggle__label</code> caption alongside the glyph, which is hidden below 420px to save bar width — so the button keeps its own <code>aria-label</code> and the caption is <code>aria-hidden</code>, giving it one stable accessible name at every size.</li>
+          <li><strong><code>.hero p + p</code></strong> — hero paragraphs have <code>margin:0</code>, so a <code>.lead</code> followed by a body paragraph needs this rule to sit apart. Single-paragraph heroes (blog posts) are untouched.</li>
         </ul>
         <p class="sg-note" style="margin-top:18px">New components must use the tokens above — never hardcode a light colour, or it will not theme. The header and footer are duplicated into every page, so change them with a one-off Node sweep, not by hand.</p>
       </div>
