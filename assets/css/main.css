@@ -424,12 +424,39 @@ code{background:var(--paper);color:var(--red-dk);padding:.15em .4em;border-radiu
 .search-form{display:flex;gap:10px;max-width:640px;margin:0 auto 8px;flex-wrap:wrap}
 .search-form__input{flex:1 1 260px;min-width:0;height:46px;padding:0 14px;font:inherit;font-size:16px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
 .search-form__input:focus{outline:2px solid var(--ink);outline-offset:-1px;border-color:var(--ink)}
-.search-status{color:var(--body);text-align:center;margin:0 auto 28px;max-width:640px}
+/* Results page layout: facets beside the results, stacked on a phone. */
+.search-layout{display:grid;gap:30px;grid-template-columns:1fr;align-items:start}
+@media(min-width:880px){.search-layout{grid-template-columns:216px minmax(0,1fr)}}
+.search-main{min-width:0}
 
-.search-results{display:grid;gap:14px;max-width:820px;margin:0 auto;list-style:none;padding:0}
+.search-filters{min-width:0}
+@media(min-width:880px){.search-filters{position:sticky;top:96px}}
+.search-filters__heading{margin:0 0 12px;font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.search-filters__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.search-filters__item{margin:0}
+.search-filters__item label{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--radius);font-size:14.5px;color:var(--ink);cursor:pointer;transition:background .15s}
+.search-filters__item label:hover{background:var(--paper)}
+.search-filters__item input{flex:0 0 auto;width:15px;height:15px;margin:0;accent-color:var(--red)}
+.search-filters__item input:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.search-filters__label{flex:1 1 auto;min-width:0}
+.search-filters__count{color:var(--muted);font-size:13px;font-variant-numeric:tabular-nums}
+/* A facet the current query returns nothing for stays listed but recedes — it
+   still says the section exists, without inviting a click that empties the page. */
+.search-filters__item.is-empty label{opacity:.45}
+.search-filters__clear{appearance:none;margin:14px 0 0;padding:0 0 0 10px;border:0;background:none;font:inherit;font-size:13.5px;font-weight:700;color:var(--red);cursor:pointer}
+.search-filters__clear:hover{text-decoration:underline}
+
+.search-toolbar{display:flex;flex-wrap:wrap;gap:10px 20px;align-items:baseline;justify-content:space-between;margin:0 0 20px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.search-status{margin:0;color:var(--body)}
+.search-sort{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;color:var(--muted);white-space:nowrap}
+.search-sort select{font:inherit;font-size:13.5px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:6px 8px}
+.search-sort select:focus{outline:2px solid var(--ink);outline-offset:-1px}
+
+.search-results{display:grid;gap:14px;margin:0;list-style:none;padding:0}
 .search-result{display:block;padding:20px 22px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);text-decoration:none;transition:border-color .2s,box-shadow .2s}
 .search-result:hover{border-color:var(--ink);box-shadow:var(--shadow-sm);text-decoration:none}
 .search-result__title{margin:0 0 4px;font-size:17px;font-weight:700;color:var(--ink);line-height:1.35}
 .search-result__url{display:block;margin:0 0 8px;font-size:12.5px;color:var(--muted);word-break:break-word}
+.search-result__section{color:var(--red);font-weight:700}
 .search-result__excerpt{margin:0;font-size:14.5px;color:var(--body);line-height:1.6}
 .search-result__excerpt mark{background:var(--paper);color:var(--ink);font-weight:700;padding:0 2px;border-radius:2px}

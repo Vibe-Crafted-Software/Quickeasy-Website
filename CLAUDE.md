@@ -192,16 +192,31 @@ any sweep that adds links.
 - The header carries a `.site-search` form on **every** page: a plain `GET` to
   `/search/` (or `/th/search/` on Thai pages), so search works with JS off.
   `main.js` only adds the `/` hotkey that focuses it.
-- `assets/js/search-page.js` runs on the search pages only. It reads `?q=`,
-  dynamically imports `/pagefind/pagefind.js` and renders the results itself —
-  the Pagefind **JS API**, not PagefindUI, so the markup uses our own tokens.
-  UI strings live in a `<script type="application/json" id="search-strings">`
-  block per page, which is how the Thai page is translated.
+- `assets/js/search-page.js` runs on the search pages only. It dynamically imports
+  `/pagefind/pagefind.js` and renders the results itself — the Pagefind **JS API**,
+  not PagefindUI, so the markup uses our own tokens. UI strings live in a
+  `<script type="application/json" id="search-strings">` block per page, which is
+  how the Thai page is translated; only `sectionOrder` is read by the script, the
+  rest of the results-page UI is static markup.
+- **The URL is the state.** `?q=`, any number of `&section=`, and `&sort=` are read
+  on load, written back as the visitor types or filters, and re-read on `popstate`.
+  Typing `replaceState`s (so one search does not leave thirty history entries);
+  submitting, filtering and sorting `pushState`. Results update ~180 ms after the
+  last keystroke, with a run counter so a slow early query cannot overwrite a
+  later one.
+- **Section facets** come from Pagefind's own filter data, so the list can never
+  drift from what was indexed. Counts shown per facet are what the *current query*
+  returns, not the size of the section; a facet returning nothing gets `.is-empty`
+  rather than vanishing.
 - **`data-pagefind-body` on `<main>` is the opt-in marker** and does two jobs:
   it keeps nav/header/footer chrome out of every excerpt, and it excludes the
-  pages that must never be indexed — `404.html` and the two search pages, which
-  deliberately never carry it. Any new page needs it, or it will be unsearchable.
-  Added by the same Node sweep that maintains nav/footer.
+  pages that must never be indexed — `404.html`, the two search pages,
+  `/style-sheet/` and `/landing/`, which deliberately never carry it. Any new page
+  needs it, or it will be unsearchable. The same `<main>` also carries
+  **`data-pagefind-filter="section:…"`** — `Solutions` · `Pricing` · `Blog` ·
+  `Support` · `Company`, localised on Thai pages (`โซลูชัน` · `ราคา` · `บล็อก` ·
+  `ฝ่ายสนับสนุน` · `บริษัท`). Both are added by the same Node sweep that maintains
+  nav/footer; test N3 fails on an indexed page missing either.
 - Thai is free: Pagefind reads `<html lang>`, builds a separate index per
   language, and loads the one matching the page doing the searching. So
   `/th/search/` returns only Thai pages. (Pagefind has no Thai stemmer — matches
@@ -214,10 +229,11 @@ any sweep that adds links.
   `pagefind-entry.json` have unhashed names. To preview search locally you must
   run the pagefind command yourself first; without it the page degrades to
   "Search is unavailable right now."
-- Tests N1–N5 cover the wiring (pages, header form per language, the
-  `data-pagefind-body` invariant, the script/CSS pieces, and that deploy builds
-  a pinned index). They deliberately do **not** assert on `/pagefind/` output,
-  which is absent on a fresh checkout.
+- Tests N1–N5 cover the wiring (page markup including the facet list, sort control
+  and noscript note; the header form per language; the `data-pagefind-body` +
+  `data-pagefind-filter` invariant; the script/CSS pieces including live typing,
+  faceting and URL state; and that deploy builds a pinned index). They deliberately
+  do **not** assert on `/pagefind/` output, which is absent on a fresh checkout.
 
 ## Conventions
 

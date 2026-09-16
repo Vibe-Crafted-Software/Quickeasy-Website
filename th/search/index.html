@@ -121,14 +121,41 @@
   </section>
 
   <section class="section">
-    <div class="container">
-      <p class="search-status" id="search-status" role="status" aria-live="polite"></p>
-      <div class="search-results" id="search-results"></div>
+    <div class="container search-layout">
+
+      <!-- Built by search-page.js from Pagefind's own filter data, so the facet
+           list can never drift from what was actually indexed. Hidden until
+           there is something in it — which includes the case where the index
+           has not been built yet. -->
+      <aside class="search-filters" id="search-filters" aria-label="กรองผลลัพธ์ตามหมวดหมู่" hidden>
+        <h2 class="search-filters__heading">หมวดหมู่</h2>
+        <ul class="search-filters__list" id="search-filters-list"></ul>
+        <button class="search-filters__clear" id="search-filters-clear" type="button" hidden>ล้างตัวกรอง</button>
+      </aside>
+
+      <div class="search-main">
+        <div class="search-toolbar">
+          <p class="search-status" id="search-status" role="status" aria-live="polite"></p>
+          <label class="search-sort" for="search-sort">เรียงตาม
+            <select id="search-sort">
+              <option value="relevance">ความเกี่ยวข้อง</option>
+              <option value="title">ชื่อเรื่อง (ก–ฮ)</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="search-results" id="search-results"></div>
+
+        <noscript>
+          <p>ระบบค้นหาต้องใช้ JavaScript ทุกหน้ายังเข้าถึงได้จากเมนูด้านบน</p>
+        </noscript>
+      </div>
+
     </div>
   </section>
 
 </main>
-<script type="application/json" id="search-strings">{"title":"ค้นหา - QuickEasy Software","titleSuffix":" - QuickEasy Software","heading":"ค้นหา","resultsFor":"ผลการค้นหาสำหรับ “%s”","prompt":"พิมพ์คำค้นหาด้านบนเพื่อค้นหาทุกหน้าในเว็บไซต์นี้","searching":"กำลังค้นหา…","one":"พบ 1 รายการ","many":"พบ %d รายการ","none":"ไม่พบผลลัพธ์สำหรับ “%s” ลองใช้คำอื่นหรือคำที่กว้างขึ้น","unavailable":"ระบบค้นหาไม่พร้อมใช้งานในขณะนี้ กรุณาลองใหม่อีกครั้ง"}</script>
+<script type="application/json" id="search-strings">{"title":"ค้นหา - QuickEasy Software","titleSuffix":" - QuickEasy Software","heading":"ค้นหา","resultsFor":"ผลการค้นหาสำหรับ “%s”","prompt":"พิมพ์คำค้นหาด้านบนเพื่อค้นหาทุกหน้าในเว็บไซต์นี้","searching":"กำลังค้นหา…","one":"พบ 1 รายการ","many":"พบ %d รายการ","none":"ไม่พบผลลัพธ์สำหรับ “%s” ลองใช้คำอื่นหรือคำที่กว้างขึ้น","unavailable":"ระบบค้นหาไม่พร้อมใช้งานในขณะนี้ กรุณาลองใหม่อีกครั้ง","sectionOrder":["โซลูชัน","ราคา","บล็อก","ฝ่ายสนับสนุน","บริษัท"]}</script>
 <footer class="site-footer">
   <div class="container">
     <div class="footer-grid">

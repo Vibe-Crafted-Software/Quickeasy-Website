@@ -121,14 +121,41 @@
   </section>
 
   <section class="section">
-    <div class="container">
-      <p class="search-status" id="search-status" role="status" aria-live="polite"></p>
-      <div class="search-results" id="search-results"></div>
+    <div class="container search-layout">
+
+      <!-- Built by search-page.js from Pagefind's own filter data, so the facet
+           list can never drift from what was actually indexed. Hidden until
+           there is something in it — which includes the case where the index
+           has not been built yet. -->
+      <aside class="search-filters" id="search-filters" aria-label="Filter results by section" hidden>
+        <h2 class="search-filters__heading">Sections</h2>
+        <ul class="search-filters__list" id="search-filters-list"></ul>
+        <button class="search-filters__clear" id="search-filters-clear" type="button" hidden>Clear filters</button>
+      </aside>
+
+      <div class="search-main">
+        <div class="search-toolbar">
+          <p class="search-status" id="search-status" role="status" aria-live="polite"></p>
+          <label class="search-sort" for="search-sort">Sort by
+            <select id="search-sort">
+              <option value="relevance">Relevance</option>
+              <option value="title">Title (A–Z)</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="search-results" id="search-results"></div>
+
+        <noscript>
+          <p>Site search needs JavaScript. Every page is still reachable from the menu above.</p>
+        </noscript>
+      </div>
+
     </div>
   </section>
 
 </main>
-<script type="application/json" id="search-strings">{"title":"Search - QuickEasy Software","titleSuffix":" - QuickEasy Software","heading":"Search","resultsFor":"Results for “%s”","prompt":"Type a search term above to search every page on this site.","searching":"Searching…","one":"1 result.","many":"%d results.","none":"No results for “%s”. Try a different or more general term.","unavailable":"Search is unavailable right now. Please try again later."}</script>
+<script type="application/json" id="search-strings">{"title":"Search - QuickEasy Software","titleSuffix":" - QuickEasy Software","heading":"Search","resultsFor":"Results for “%s”","prompt":"Type a search term above to search every page on this site.","searching":"Searching…","one":"1 result.","many":"%d results.","none":"No results for “%s”. Try a different or more general term.","unavailable":"Search is unavailable right now. Please try again later.","sectionOrder":["Solutions","Pricing","Blog","Support","Company"]}</script>
 <footer class="site-footer">
   <div class="container">
     <div class="footer-grid">

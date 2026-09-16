@@ -646,8 +646,19 @@ test('N1 both search pages exist, are noindex, and carry the results markup', ()
     if (!/id="search-results"/.test(p.html)) errs.push('no results container: ' + r);
     if (!/id="search-strings"/.test(p.html)) errs.push('no strings block: ' + r);
     if (!/src="\/assets\/js\/search-page\.js"/.test(p.html)) errs.push('search-page.js not loaded: ' + r);
-    try { JSON.parse(/id="search-strings">([\s\S]*?)<\/script>/.exec(p.html)[1]); }
-    catch (e) { errs.push('search strings are not valid JSON: ' + r); }
+    // Facets, sort and the no-JS note. The script tolerates any of these being
+    // absent, so only a test keeps them from quietly disappearing from a page.
+    if (!/id="search-filters-list"/.test(p.html)) errs.push('no section facet list: ' + r);
+    if (!/id="search-filters-clear"/.test(p.html)) errs.push('no clear-filters button: ' + r);
+    if (!/id="search-sort"/.test(p.html)) errs.push('no sort control: ' + r);
+    if (!/<noscript>/.test(p.html)) errs.push('no noscript fallback: ' + r);
+    try {
+      const strings = JSON.parse(/id="search-strings">([\s\S]*?)<\/script>/.exec(p.html)[1]);
+      // sectionOrder is the one string the script reads rather than the markup;
+      // without it the facets fall back to alphabetical, which reads as random.
+      if (!Array.isArray(strings.sectionOrder) || !strings.sectionOrder.length)
+        errs.push('no sectionOrder in the strings block: ' + r);
+    } catch (e) { errs.push('search strings are not valid JSON: ' + r); }
     return errs;
   }));
 
@@ -667,6 +678,11 @@ test('N3 data-pagefind-body marks the indexable pages only', () => {
     const shouldMark = !isNoindex(p.html);
     if (shouldMark && !marked) errs.push('not indexable by Pagefind: ' + p.rel);
     if (!shouldMark && marked) errs.push('noindex page would be indexed by Pagefind: ' + p.rel);
+    // Every indexed page also declares the section it belongs to, which is what
+    // the /search/ facets are built from. An untagged page still turns up in an
+    // unfiltered search but vanishes the moment anyone ticks a box.
+    if (marked && !/<main[^>]*data-pagefind-filter="section:[^"]+"/.test(p.html))
+      errs.push('indexed but has no section facet: ' + p.rel);
   }
   return errs;
 });
@@ -677,8 +693,15 @@ test('N4 search-page.js queries Pagefind; main.css and main.js carry the pieces'
   if (!fs.existsSync(js)) return ['assets/js/search-page.js missing'];
   const src = read(js);
   if (!src.includes("import('/pagefind/pagefind.js')")) errs.push('search-page.js does not import the Pagefind index');
+  // Facets, live typing and the back button: the behaviours that make the
+  // results page more than a list, each easy to lose in a refactor.
+  if (!src.includes('pagefind.filters()')) errs.push('search-page.js does not read the section facets');
+  if (!/filters: \{ section:/.test(src)) errs.push('search-page.js does not filter by section');
+  if (!/addEventListener\('input'/.test(src)) errs.push('search-page.js does not search as you type');
+  if (!/history\[replace \? 'replaceState' : 'pushState'\]/.test(src)) errs.push('search-page.js does not keep the query in the URL');
   const css = read(path.join(ROOT, 'assets/css/main.css'));
-  for (const c of ['.site-search', '.search-form', '.search-results', '.search-result', '.visually-hidden'])
+  for (const c of ['.site-search', '.search-form', '.search-results', '.search-result', '.visually-hidden',
+                   '.search-layout', '.search-filters', '.search-toolbar', '.search-sort'])
     if (!css.includes(c)) errs.push('main.css missing ' + c);
   if (!read(path.join(ROOT, 'assets/js/main.js')).includes('site-search-input'))
     errs.push('main.js has no "/" search shortcut');

@@ -335,14 +335,36 @@
           <input class="search-form__input" id="sg-search" type="search" placeholder="Search the site&hellip;" />
           <button class="btn btn--primary" type="submit">Search</button>
         </form>
-        <p class="search-status">Status line — <code>.search-status</code>.</p>
-        <div class="search-results">
-          <a class="search-result" href="#">
-            <h2 class="search-result__title">A result title</h2>
-            <span class="search-result__url">/a/result/url/</span>
-            <p class="search-result__excerpt">The excerpt Pagefind returns, with its own <mark>highlighted</mark> match inside it.</p>
-          </a>
+        <div class="search-layout" style="margin-top:26px">
+          <aside class="search-filters" aria-label="Filter demo">
+            <h2 class="search-filters__heading">Sections</h2>
+            <ul class="search-filters__list">
+              <li class="search-filters__item"><label><input type="checkbox" checked /><span class="search-filters__label">Solutions</span><span class="search-filters__count">11</span></label></li>
+              <li class="search-filters__item"><label><input type="checkbox" /><span class="search-filters__label">Blog</span><span class="search-filters__count">34</span></label></li>
+              <li class="search-filters__item is-empty"><label><input type="checkbox" /><span class="search-filters__label">Support</span><span class="search-filters__count"></span></label></li>
+            </ul>
+            <button class="search-filters__clear" type="button">Clear filters</button>
+          </aside>
+          <div class="search-main">
+            <div class="search-toolbar">
+              <p class="search-status">Status line — <code>.search-status</code>.</p>
+              <label class="search-sort" for="sg-sort">Sort by
+                <select id="sg-sort">
+                  <option>Relevance</option>
+                  <option>Title (A&ndash;Z)</option>
+                </select>
+              </label>
+            </div>
+            <div class="search-results">
+              <a class="search-result" href="#">
+                <h2 class="search-result__title">A result title</h2>
+                <span class="search-result__url"><span class="search-result__section">Solutions</span> &middot; /a/result/url/</span>
+                <p class="search-result__excerpt">The excerpt Pagefind returns, with its own <mark>highlighted</mark> match inside it.</p>
+              </a>
+            </div>
+          </div>
         </div>
+        <p style="margin:22px 0 0;font-size:14px;color:var(--muted)">Facets are built from Pagefind's own filter data — every indexed page carries <code>data-pagefind-filter="section:&hellip;"</code> on its <code>&lt;main&gt;</code>. A facet the current query returns nothing for gets <code>.is-empty</code> rather than disappearing.</p>
       </div>
     </div>
   </section>
