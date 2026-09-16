@@ -286,9 +286,24 @@ test('G0 container gutter is responsive, not a flat value', () => {
   const css = read(path.join(ROOT, 'assets/css/main.css'));
   const m = /\.container\{[^}]*padding:0 ([^;}]+)/.exec(css);
   if (!m) return ['no .container padding rule'];
-  return /clamp\(|min\(|max\(|vw/.test(m[1])
-    ? []
-    : ['.container gutter is a flat ' + m[1] + ' — it collapses at mid widths'];
+  const errs = [];
+  if (!/clamp\(|min\(|max\(|vw/.test(m[1]))
+    errs.push('.container gutter is a flat ' + m[1] + ' — it collapses at mid widths');
+
+  // A class that shares an element with .container must never use the `padding`
+  // shorthand: it comes later in the file at equal specificity, so `padding:64px 0`
+  // silently resets the gutter to zero and that section runs to the screen edge.
+  // This is exactly how the hero lost its margins. Vertical padding goes through
+  // padding-block (or padding-top/-bottom), never the shorthand.
+  const shared = [...css.matchAll(/class="container ([a-z-]+)"/g)].map((x) => x[1]);
+  for (const cls of ['hero-grid', 'search-layout', 'site-header__bar', 'prose', 'center', ...shared]) {
+    const re = new RegExp('\\.' + cls + '\\{([^}]*)\\}', 'g');
+    let r;
+    while ((r = re.exec(css)))
+      if (/(?:^|;)padding:/.test(r[1]))
+        errs.push(`.${cls} uses the padding shorthand; it shares an element with .container and would zero the side gutter`);
+  }
+  return errs;
 });
 
 test('G1 main.css has the new components', () => {

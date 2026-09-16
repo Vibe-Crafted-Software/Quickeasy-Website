@@ -116,9 +116,12 @@ p{margin:0 0 1em}
 .center .lead{margin-left:auto;margin-right:auto}
 .sec-head{margin-bottom:44px}
 
+/* .hero-grid sits ON a .container, so it must never use the padding shorthand —
+   that resets the container gutter to 0 and the hero runs to the screen edge.
+   Vertical padding only, via padding-block. */
 .hero{background:linear-gradient(180deg,#fbfaf9,var(--paper));border-bottom:1px solid var(--line)}
-.hero-grid{display:grid;grid-template-columns:1fr;gap:40px;align-items:center;padding:64px 0}
-@media(min-width:900px){.hero-grid{grid-template-columns:1.05fr .95fr;gap:56px;padding:84px 0}}
+.hero-grid{display:grid;grid-template-columns:1fr;gap:40px;align-items:center;padding-block:64px}
+@media(min-width:900px){.hero-grid{grid-template-columns:1.05fr .95fr;gap:56px;padding-block:84px}}
 .hero h1{font-size:clamp(32px,5vw,52px);font-weight:800;letter-spacing:-.02em;margin:0 0 20px;text-wrap:balance}
 .hero p{font-size:clamp(17px,1.8vw,20px);color:var(--ink-2);margin:0;max-width:36ch}
 .hero p + p{margin-top:16px}
@@ -226,7 +229,7 @@ p{margin:0 0 1em}
 .form-status.is-error{color:var(--ink-2)}
 
 /* ---------- inner-page hero (single column) ---------- */
-.hero--sub .hero-grid{grid-template-columns:1fr;text-align:center;padding:56px 0}
+.hero--sub .hero-grid{grid-template-columns:1fr;text-align:center;padding-block:56px}
 .hero--sub .hero-grid>div{max-width:74ch;margin:0 auto}
 .hero--sub p{max-width:none}
 
@@ -292,7 +295,7 @@ tbody tr:last-child td{border-bottom:0}
 /* ---------- legal documents (Terms/Policy pages) ---------- */
 .qe-legal{font-family:var(--font);color:var(--body);line-height:1.7;font-size:16px;background:var(--surface)}
 .qe-legal *{box-sizing:border-box}
-.qe-legal .qe-wrap{max-width:940px;margin:0 auto;padding:0 24px}
+.qe-legal .qe-wrap{max-width:940px;margin:0 auto;padding:0 clamp(24px,4vw,44px)}
 .qe-legal .lg-head{background:linear-gradient(180deg,#fbfaf9,var(--paper));border-bottom:1px solid var(--line);padding:52px 0 40px}
 .qe-legal .lg-eyebrow{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin:0 0 12px}
 .qe-legal h1{font-weight:800;font-size:clamp(28px,4.4vw,42px);line-height:1.1;letter-spacing:-.01em;color:var(--ink);margin:0 0 14px;text-wrap:balance}
