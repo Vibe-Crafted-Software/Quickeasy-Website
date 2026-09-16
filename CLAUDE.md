@@ -105,9 +105,18 @@ post, first relevant occurrence, and a per-post cap scaled to length (~3–10 co
 links per 1,000 words is the usual guidance; the blog currently sits at 1.87). Don't
 strip these when editing post copy.
 
-**Known gap:** 111 of 112 posts link to no other post. The blog is a set of islands that
-all point up at product pages and out to `/contact-us/`, with almost no sideways links.
-Worth a dedicated pass.
+### Post → post links
+
+Every post ends with a **Related reading** band (`section--paper`, so it alternates off
+the white content band) holding three related posts, with the "Back to all Blogs" link
+moved into it. Relatedness is TF-IDF cosine similarity over post bodies plus a bonus for
+sharing a `/blog/` topic category, so the mesh can never disagree with the listing.
+Anchor text is the destination post's own title. Inbound links are spread by a cap
+(min 1, max 6, mean 3) — **no post has zero inbound**, which is the state that gets a
+page dropped from the crawl. Thai posts mirror the English mesh through their `/th/`
+twins, reusing each post's already-translated title, so no new Thai prose was generated.
+
+Blog contextual-link density is now **4.0 per 1,000 words**, inside the 3–10 guidance.
 
 ## SEO / migration
 
