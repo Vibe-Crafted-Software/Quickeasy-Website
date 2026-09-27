@@ -333,6 +333,32 @@ or any sweep that adds links.
   nav/footer); tests **V1–V5** guard the wiring. Never add this origin to the hub's
   `ALLOWED_ORIGINS` — registering the site is the whole grant.
 
+## Mailing list (hub Multi-mailer)
+
+- Sign-ups go to the Vibe Crafted Multi-mailer on the same hub and site row
+  (`quickeasy`) as click-to-call; the row's **Multi-mailer plan switch** must be on, or
+  every sign-up is refused with a 403. Sender name, reply-to and postal address live in
+  the portal (`/portal/mail/`), not here. Every route is **double opt-in**.
+- `mail-widget.js` is served from the hub (never copied), one tag per page inside
+  `<!-- mailing-list -->` markers; Thai pages load `mail-i18n-th.js` first. Two routes:
+  - **Pop-up** (`data-mail-popup`, with our own title/text; Thai copy on Thai pages) on
+    marketing pages and posts — **not** on `/contact-us/`, `/support/`, `/documentation/`,
+    `/pricing/`, the legal pages or `404`. Its timing/memory rules are the widget's.
+  - **Contact-form tick box** (`data-mail-optin` on `form.contact-form`) on every sales
+    form — **not** on the `/support/` request form. The widget adds the checkbox itself,
+    **unticked**; never write it into the page or pre-tick it (POPIA s69: consent must be
+    separate and active).
+- `main.js`'s contact handler calls `refuse(e)` (`stopImmediatePropagation`) on every path
+  where it doesn't send the form, so a ticked box on a refused form subscribes nobody.
+  It relies on `main.js` binding before the widget — keep `main.js` a deferred head script.
+- Theming: `--vcm-accent`/`--vcm-ink` aliases in `:root`, plus `:root .vcm-pop.vcm-pop`
+  rules that override the pop-up's OS-preference colours so it follows the theme toggle.
+  `.contact-form input` styles exclude checkboxes.
+- `/popia-policy/` and `/website-policy/` describe the list (s69 consent, double opt-in,
+  open/click tracking, operator Vibe Crafted, SES in Singapore, 7-day purge) and the call
+  buttons/voicemail — **attorney review pending**. Placed by an idempotent Node sweep;
+  tests **W1–W5** guard it.
+
 ## Conventions
 
 - Folder path = live URL (static site served at domain root).

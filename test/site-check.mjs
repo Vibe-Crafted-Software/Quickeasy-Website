@@ -862,6 +862,78 @@ test('V5 contact-us rings sales only; support keeps its tel: fallback', () => {
 });
 
 /* =========================================================================
+   W. Multi-mailer sign-ups (the hub's mail-widget.js)
+   ========================================================================= */
+const MAIL_NO_POPUP = new Set(['404.html', 'contact-us/index.html', 'support/index.html', 'documentation/index.html',
+  'pricing/index.html', 'website-policy/index.html', 'software-policy/index.html', 'popia-policy/index.html']);
+const MAIL_NO_OPTIN = new Set(['support/index.html', 'th/support/index.html']);
+const mailTags = (h) => h.match(/<script[^>]*mail-widget\.js[^>]*><\/script>/g) || [];
+const bareRel = (r) => r.replace(/^th\//, '');
+
+test('W1 the mail widget is wired to the hub, once, wherever it is needed; never on unlisted pages', () =>
+  voicePages.flatMap((p) => {
+    const tags = mailTags(p.html);
+    if (VOICE_UNLISTED.has(p.rel)) return tags.length ? ['mail widget on unlisted page ' + p.rel] : [];
+    const needs = p.html.includes('data-mail-optin') || !MAIL_NO_POPUP.has(bareRel(p.rel));
+    if (!needs) return tags.length ? ['mail widget on a page with no pop-up or opt-in: ' + p.rel] : [];
+    if (tags.length !== 1) return [`${tags.length} mail widget tags in ${p.rel}`];
+    const t = tags[0], errs = [];
+    if (!t.includes(`src="${VOICE_HUB}/assets/mail-widget.js"`)) errs.push('mail widget not served from the hub: ' + p.rel);
+    if (!t.includes(`data-mail-api="${VOICE_HUB}"`)) errs.push('no data-mail-api: ' + p.rel);
+    if (!t.includes('data-mail-site="quickeasy"')) errs.push('wrong/missing mail site key: ' + p.rel);
+    return errs;
+  }));
+
+test('W2 pop-up: on marketing pages and posts, never on contact/support/docs/pricing/legal/404', () =>
+  voicePages.flatMap((p) => {
+    const t = mailTags(p.html)[0] || '';
+    const want = !VOICE_UNLISTED.has(p.rel) && !MAIL_NO_POPUP.has(bareRel(p.rel));
+    const has = /\sdata-mail-popup(\s|>)/.test(t);
+    if (want && !has) return ['no pop-up on ' + p.rel];
+    if (!want && has) return ['pop-up on ' + p.rel];
+    if (has && !/data-mail-popup-title="[^"]+"/.test(t)) return ['pop-up without a title on ' + p.rel];
+    return [];
+  }));
+
+test('W3 contact-form opt-in: on every sales form, never on support, never pre-ticked in source', () =>
+  voicePages.flatMap((p) => {
+    const errs = [];
+    const forms = p.html.match(/<form class="contact-form"[^>]*>/g) || [];
+    for (const f of forms) {
+      const has = /\sdata-mail-optin[\s>=]/.test(f);
+      if (MAIL_NO_OPTIN.has(p.rel) && has) errs.push('marketing opt-in on the support form: ' + p.rel);
+      if (!MAIL_NO_OPTIN.has(p.rel) && !has) errs.push('contact form without the opt-in: ' + p.rel);
+    }
+    // The widget adds the box itself, unticked. A box written into the page could be pre-ticked.
+    if (/name="vcm_optin"/.test(p.html)) errs.push('opt-in checkbox hard-coded in source: ' + p.rel);
+    return errs;
+  }));
+
+test('W4 Thai pages load the Thai mail strings before the widget, with Thai pop-up copy', () =>
+  voicePages.flatMap((p) => {
+    const t = mailTags(p.html)[0];
+    if (!t) return [];
+    const w = p.html.indexOf('mail-widget.js'), i = p.html.indexOf(`${VOICE_HUB}/assets/mail-i18n-th.js`);
+    if (!isThai(p.html)) return p.html.includes('mail-i18n-th.js') ? ['Thai mail strings on an English page: ' + p.rel] : [];
+    const errs = [];
+    if (!(i >= 0 && i < w)) errs.push('Thai mail strings missing or after the widget: ' + p.rel);
+    const title = (t.match(/data-mail-popup-title="([^"]*)"/) || [])[1];
+    if (title && !/[฀-๿]/.test(title)) errs.push('English pop-up title on a Thai page: ' + p.rel);
+    return errs;
+  }));
+
+test('W5 a refused contact form cannot subscribe; the opt-in checkbox escapes the form input styling', () => {
+  const errs = [];
+  const js = read(path.join(ROOT, 'assets/js/main.js'));
+  if (!/stopImmediatePropagation/.test(js)) errs.push('main.js no longer stops other submit listeners on a refused form');
+  if ((js.match(/return refuse\(e\)/g) || []).length < 3) errs.push('not every refusal path in the contact handler calls refuse(e)');
+  const css = read(path.join(ROOT, 'assets/css/main.css'));
+  if (!css.includes('.contact-form input:not([type=checkbox])')) errs.push('contact-form input styles would restyle the opt-in checkbox');
+  for (const tok of ['--vcm-accent:', ':root .vcm-pop.vcm-pop']) if (!css.includes(tok)) errs.push('main.css lacks ' + tok);
+  return errs;
+});
+
+/* =========================================================================
    Report
    ========================================================================= */
 let passed = 0, failed = 0;

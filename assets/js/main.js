@@ -76,18 +76,25 @@
       statusEl.className = "form-status is-" + type;
     }
 
+    // A form this handler refuses was never sent, so nothing else listening for
+    // submit may act on it either — in particular the Multi-mailer opt-in
+    // (mail-widget.js), which would otherwise subscribe a ticked address from a
+    // form that failed our checks. This handler registers first (main.js runs
+    // before the widget), so stopImmediatePropagation reaches it.
+    function refuse(e) { e.stopImmediatePropagation(); }
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
 
       // Honeypot — real users never fill this.
-      if (form.elements["hp_field"] && form.elements["hp_field"].value) return;
+      if (form.elements["hp_field"] && form.elements["hp_field"].value) return refuse(e);
 
       var el = function (n) { return form.elements[n] ? form.elements[n].value.trim() : ""; };
       var name = el("name"), email = el("email"), phone = el("phone"), message = el("message");
 
       if (!name || !email || !message) {
         setStatus("Please fill in your name, email, and message.", "error");
-        return;
+        return refuse(e);
       }
 
       var body = message + (phone ? "\n\nPhone: " + phone : "");
@@ -102,7 +109,7 @@
 
       if (!RELAY_URL) {
         setStatus("This form isn't connected yet. Please email info@quickeasysoftware.com.", "error");
-        return;
+        return refuse(e);
       }
 
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Sending…"; }

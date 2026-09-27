@@ -327,6 +327,7 @@
         <div class="btn-row"><button type="submit" class="btn btn--primary">Submit button</button></div>
         <div class="form-status" role="status">Status line — <code>.form-status</code>, filled in by main.js.</div>
       </form>
+      <p class="sg-note" style="margin-top:14px">Sales forms carry <code>data-mail-optin</code>: the hub's <code>mail-widget.js</code> inserts an <strong>unticked</strong> “Also send me news…” <code>.vcm-optin</code> box above the submit button (a full-width row inside <code>.btn-row</code>). Never write that checkbox into the page. <code>.contact-form</code> input styles skip checkboxes so it keeps its native look, and the sign-up pop-up is repainted from our tokens (<code>:root .vcm-pop.vcm-pop</code>) so it follows the theme toggle. The <code>/support/</code> form has no opt-in.</p>
     </div>
   </section>
 
