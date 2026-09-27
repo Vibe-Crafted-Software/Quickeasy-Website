@@ -784,6 +784,84 @@ test('N5 deploy rebuilds the index and the bundle is not excluded from the sync'
 });
 
 /* =========================================================================
+   V. Click-to-call (the hub softphone's voice-widget.js)
+   ========================================================================= */
+const VOICE_HUB = 'https://portal.vibecraftedsoftware.com';
+const VOICE_UNLISTED = new Set(['stylesheet/index.html', 'landing/index.html', 'landing-thai/index.html', 'search/index.html', 'th/search/index.html']);
+const VOICE_SUPPORT = new Set(['support/index.html', 'documentation/index.html', 'th/support/index.html', 'th/documentation/index.html']);
+const voicePages = pages.filter((p) => (p.rel.endsWith('index.html') || p.rel === '404.html') && !p.rel.startsWith('pagefind/'));
+const voiceTags = (h) => h.match(/<script[^>]*voice-widget\.js[^>]*><\/script>/g) || [];
+const isThai = (h) => /<html[^>]*lang="th"/.test(h);
+
+test('V1 every visitor page loads the hub widget once, correctly wired; unlisted pages none', () =>
+  voicePages.flatMap((p) => {
+    const tags = voiceTags(p.html);
+    if (VOICE_UNLISTED.has(p.rel)) return tags.length ? ['widget on unlisted page ' + p.rel] : [];
+    if (tags.length !== 1) return [`${tags.length} widget tags in ${p.rel}`];
+    const t = tags[0], errs = [];
+    if (!t.includes(`src="${VOICE_HUB}/assets/voice-widget.js"`)) errs.push('widget not served from the hub: ' + p.rel);
+    if (!t.includes(`data-voice-api="${VOICE_HUB}"`)) errs.push('no data-voice-api (button would never appear): ' + p.rel);
+    if (!t.includes('data-voice-site="quickeasy"')) errs.push('wrong/missing site key: ' + p.rel);
+    if (!/\bdefer\b/.test(t)) errs.push('widget not deferred: ' + p.rel);
+    return errs;
+  }));
+
+test('V2 page default list: support on support/documentation, sales elsewhere', () =>
+  voicePages.flatMap((p) => {
+    const t = voiceTags(p.html)[0];
+    if (!t) return [];
+    const want = VOICE_SUPPORT.has(p.rel) ? 'support' : 'sales';
+    return t.includes(`data-voice-team="${want}"`) ? [] : [`expected data-voice-team="${want}" in ${p.rel}`];
+  }));
+
+test('V3 Thai pages load the Thai strings before the widget; English pages do not', () =>
+  voicePages.flatMap((p) => {
+    const w = p.html.indexOf('voice-widget.js');
+    if (w < 0) return [];
+    const i = p.html.indexOf(`${VOICE_HUB}/assets/voice-i18n-th.js`);
+    if (isThai(p.html)) return i >= 0 && i < w ? [] : ['Thai strings missing or after the widget: ' + p.rel];
+    return p.html.includes('voice-i18n-th.js') ? ['Thai strings on an English page: ' + p.rel] : [];
+  }));
+
+test('V4 triggers are hidden buttons outside the search index; bubble off where they exist', () =>
+  voicePages.flatMap((p) => {
+    const errs = [];
+    const triggers = p.html.match(/<[a-z]+[^>]*\bdata-voice-call\b[^>]*>/g) || [];
+    for (const t of triggers) {
+      if (!/^<button\b/.test(t) || !/type="button"/.test(t)) errs.push('trigger is not a <button type="button">: ' + p.rel);
+      if (!/\shidden\b/.test(t)) errs.push('trigger not hidden in source: ' + p.rel);
+    }
+    const rows = p.html.match(/<div class="[^"]*call-row[^"]*"[^>]*>/g) || [];
+    if (rows.some((r) => !r.includes('data-pagefind-ignore'))) errs.push('call-row not data-pagefind-ignore: ' + p.rel);
+    if (triggers.length && !rows.length) errs.push('trigger outside a .call-row: ' + p.rel);
+    const t = voiceTags(p.html)[0] || '';
+    const fabOff = t.includes('data-voice-fab="off"');
+    if (triggers.length && !fabOff) errs.push('in-page button but bubble still on: ' + p.rel);
+    if (!triggers.length && fabOff) errs.push('bubble off but no in-page button: ' + p.rel);
+    return errs;
+  }));
+
+test('V5 contact-us rings both lists; support keeps its tel: fallback', () => {
+  const errs = [];
+  for (const r of ['contact-us/index.html', 'th/contact-us/index.html']) {
+    const c = get(r);
+    if (!c) { errs.push(r + ' missing'); continue; }
+    for (const team of ['sales', 'support'])
+      if (!new RegExp(`data-voice-call data-voice-team="${team}"`).test(c.html)) errs.push(`${r}: no ${team} button`);
+  }
+  for (const r of ['support/index.html', 'th/support/index.html']) {
+    const s = get(r);
+    if (!s) { errs.push(r + ' missing'); continue; }
+    if (!s.html.includes('href="tel:')) errs.push(r + ': tel: fallback gone');
+    if (!s.html.includes('data-voice-call')) errs.push(r + ': no call button');
+  }
+  const css = read(path.join(ROOT, 'assets/css/main.css'));
+  for (const tok of ['--accent:', '--accent-ink:', '--text:', '--text-muted:'])
+    if (!css.includes(tok)) errs.push('main.css lacks widget alias token ' + tok);
+  return errs;
+});
+
+/* =========================================================================
    Report
    ========================================================================= */
 let passed = 0, failed = 0;

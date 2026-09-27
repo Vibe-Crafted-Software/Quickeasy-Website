@@ -308,6 +308,30 @@ or any sweep that adds links.
   faceting and URL state; and that deploy builds a pinned index). They deliberately
   do **not** assert on `/pagefind/` output, which is absent on a fresh checkout.
 
+## Click-to-call (hub softphone)
+
+- Call buttons ring the shared Vibe Crafted softphone at `portal.vibecraftedsoftware.com`
+  (agents answer at `/portal/phone/`). This site is registered there as site key
+  **`quickeasy`**, origin `https://quickeasysoftware.com` (the apex: `www.` 301s to it).
+  Agents, lists and **hours** are set in the portal admin, not here — a list with no
+  hours never opens, and an unregistered site simply leaves every button hidden.
+- Every visitor page carries one `voice-widget.js` tag before `</body>`, inside
+  `<!-- click-to-call -->` markers, **served from the hub** with an absolute `src` and
+  `data-voice-api` (omit that and the button silently never appears). Never copy the
+  file into this repo — it would be a frozen fork. Thai pages load the hub's
+  `voice-i18n-th.js` immediately before it. Unlisted pages and the search pages carry none.
+- Lists: `/support/` and `/documentation/` (EN + TH) default to **support**; everything
+  else to **sales**; `/contact-us/` carries both buttons. EN and TH ring the same lists.
+- Pages with a contact/demo form get a `.call-row` of hidden ghost `<button data-voice-call>`s
+  just above the form (on `/support/`, inside the Telephone card) and `data-voice-fab="off"`;
+  pages without one get the widget's floating bubble. `.call-row` is `data-pagefind-ignore`
+  and collapses while all its buttons are hidden. The `tel:` / WhatsApp / form routes stay.
+- The widget themes through alias tokens (`--accent`, `--text`, `--surface-2`…) at the top
+  of `:root` in `main.css`, which only point at the site tokens so dark mode follows.
+- Tag and buttons are placed by an idempotent Node sweep (the same one-off approach as
+  nav/footer); tests **V1–V5** guard the wiring. Never add this origin to the hub's
+  `ALLOWED_ORIGINS` — registering the site is the whole grant.
+
 ## Conventions
 
 - Folder path = live URL (static site served at domain root).

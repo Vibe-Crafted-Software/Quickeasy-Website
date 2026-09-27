@@ -16,6 +16,14 @@
      so they line up regardless of whether their content is a 20px glyph or
      13px of text. */
   --ctl-h:38px;
+  /* Aliases for the hub's click-to-call widget (voice-widget.js), which styles itself
+     with these names. They only point at the tokens above, so the panel and bubble
+     follow the dark palette without a second definition. --mint/--amber are left on
+     the widget's own fallbacks: they are its live and ringing/hang-up signals. */
+  --accent:var(--ink); --accent-ink:var(--bg); --violet:var(--ink);
+  --text:var(--ink); --text-soft:var(--body); --text-muted:var(--muted);
+  --surface-2:var(--paper); --line-strong:var(--muted);
+  --r-sm:var(--radius); --r-lg:12px; --shadow-lg:var(--shadow);
   --font:"Open Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
 }
 html[lang="th"]{--font:"Noto Sans Thai","Open Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
@@ -514,3 +522,12 @@ code{background:var(--paper);color:var(--red-dk);padding:.15em .4em;border-radiu
 .search-result__url{display:block;margin:0 0 10px;font-size:12.5px;color:var(--muted);word-break:break-word}
 .search-result__excerpt{margin:0;font-size:14.5px;color:var(--body);line-height:1.6}
 .search-result__excerpt mark{background:var(--red-wash);color:var(--red-dk);font-weight:700;padding:.1em .3em;border-radius:3px}
+
+/* ---- click-to-call (hub widget) ----------------------------------------------
+   Triggers ship `hidden`; voice-widget.js reveals them only when this browser can
+   call and the list answered. The row collapses when every button in it is hidden,
+   so an unregistered site or a down hub leaves no gap above the form. */
+.call-row{margin:0 0 28px}
+.call-row:not(:has(> :not([hidden]))){display:none}
+.call-row .btn svg{width:18px;height:18px;flex:none}
+.card .call-row{margin:16px 0 0;justify-content:flex-start}
