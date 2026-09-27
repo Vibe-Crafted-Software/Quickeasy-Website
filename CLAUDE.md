@@ -321,7 +321,8 @@ or any sweep that adds links.
   file into this repo — it would be a frozen fork. Thai pages load the hub's
   `voice-i18n-th.js` immediately before it. Unlisted pages and the search pages carry none.
 - Lists: `/support/` and `/documentation/` (EN + TH) default to **support**; everything
-  else to **sales**; `/contact-us/` carries both buttons. EN and TH ring the same lists.
+  else to **sales**, including `/contact-us/` (one Sales button — a second Support button
+  there sat on "Leave a message" out of Support hours and read as broken). EN and TH ring the same lists.
 - Pages with a contact/demo form get a `.call-row` of hidden ghost `<button data-voice-call>`s
   just above the form (on `/support/`, inside the Telephone card) and `data-voice-fab="off"`;
   pages without one get the widget's floating bubble. `.call-row` is `data-pagefind-ignore`

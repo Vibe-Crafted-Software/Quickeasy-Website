@@ -841,13 +841,13 @@ test('V4 triggers are hidden buttons outside the search index; bubble off where 
     return errs;
   }));
 
-test('V5 contact-us rings both lists; support keeps its tel: fallback', () => {
+test('V5 contact-us rings sales only; support keeps its tel: fallback', () => {
   const errs = [];
   for (const r of ['contact-us/index.html', 'th/contact-us/index.html']) {
     const c = get(r);
     if (!c) { errs.push(r + ' missing'); continue; }
-    for (const team of ['sales', 'support'])
-      if (!new RegExp(`data-voice-call data-voice-team="${team}"`).test(c.html)) errs.push(`${r}: no ${team} button`);
+    if (count(c.html, /data-voice-call/g) !== 1) errs.push(r + ': expected exactly one call button');
+    if (/data-voice-team="support"/.test(c.html)) errs.push(r + ': rings support (contact page is sales)');
   }
   for (const r of ['support/index.html', 'th/support/index.html']) {
     const s = get(r);
