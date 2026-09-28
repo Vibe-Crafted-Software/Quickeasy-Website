@@ -79,8 +79,10 @@
     // A form this handler refuses was never sent, so nothing else listening for
     // submit may act on it either — in particular the Multi-mailer opt-in
     // (mail-widget.js), which would otherwise subscribe a ticked address from a
-    // form that failed our checks. This handler registers first (main.js runs
-    // before the widget), so stopImmediatePropagation reaches it.
+    // form that failed our checks — and the enquiry copy (forms-widget.js), which
+    // would keep a portal record of an enquiry that was never sent. This handler
+    // registers first (main.js runs before both widgets), so
+    // stopImmediatePropagation reaches them.
     function refuse(e) { e.stopImmediatePropagation(); }
 
     form.addEventListener("submit", function (e) {

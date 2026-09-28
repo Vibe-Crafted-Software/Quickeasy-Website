@@ -934,6 +934,47 @@ test('W5 a refused contact form cannot subscribe; the opt-in checkbox escapes th
 });
 
 /* =========================================================================
+   Q. Enquiry copies (the hub's forms-widget.js) — a copy, not the delivery
+   ========================================================================= */
+const formsTags = (h) => h.match(/<script[^>]*forms-widget\.js[^>]*><\/script>/g) || [];
+
+test('Q1 every contact form keeps an enquiry copy; the widget is on exactly those pages, never unlisted ones', () =>
+  voicePages.flatMap((p) => {
+    const tags = formsTags(p.html);
+    const forms = p.html.match(/<form class="contact-form"[^>]*>/g) || [];
+    if (VOICE_UNLISTED.has(p.rel)) return tags.length || p.html.includes('data-enquiry-form') ? ['enquiry widget on unlisted page ' + p.rel] : [];
+    const errs = [];
+    for (const f of forms) if (!/\sdata-enquiry-form[\s>]/.test(f)) errs.push('contact form without data-enquiry-form: ' + p.rel);
+    if (!forms.length) return tags.length ? ['enquiry widget on a page with no contact form: ' + p.rel] : [];
+    if (tags.length !== 1) return [...errs, `${tags.length} enquiry widget tags in ${p.rel}`];
+    const t = tags[0];
+    if (!t.includes(`src="${VOICE_HUB}/assets/forms-widget.js"`)) errs.push('enquiry widget not served from the hub: ' + p.rel);
+    if (!t.includes(`data-forms-api="${VOICE_HUB}"`)) errs.push('no data-forms-api: ' + p.rel);
+    if (!t.includes('data-forms-site="quickeasy"')) errs.push('wrong/missing forms site key: ' + p.rel);
+    if (!/\sdefer[\s>]/.test(t)) errs.push('enquiry widget not deferred: ' + p.rel);
+    // Must bind after main.js (a deferred head script) so a refused form records nothing.
+    if (p.html.indexOf('forms-widget.js') < p.html.indexOf('/assets/js/main.js')) errs.push('enquiry widget before main.js: ' + p.rel);
+    return errs;
+  }));
+
+test('Q2 the contact handler still delivers through the relay and cancels no one else', () => {
+  const errs = [];
+  if (fs.existsSync(path.join(ROOT, 'assets/forms-widget.js')) || fs.existsSync(path.join(ROOT, 'assets/js/forms-widget.js')))
+    errs.push('forms-widget.js copied into the repo — serve it from the hub');
+  const js = read(path.join(ROOT, 'assets/js/main.js'));
+  if (!/RELAY_URL = "https:/.test(js)) errs.push('main.js lost the relay — the enquiry copy is not the delivery');
+  return errs;
+});
+
+test('Q3 the privacy notice says a copy of each enquiry is kept in the portal', () => {
+  const h = read(path.join(ROOT, 'popia-policy/index.html'));
+  const errs = [];
+  if (!/copy is kept in our client portal/.test(h)) errs.push('POPIA policy does not mention the enquiry copy');
+  if (!/enquiry copies on our behalf/.test(h)) errs.push('POPIA policy does not name the operator for enquiry copies');
+  return errs;
+});
+
+/* =========================================================================
    Report
    ========================================================================= */
 let passed = 0, failed = 0;

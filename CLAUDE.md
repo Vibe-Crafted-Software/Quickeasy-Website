@@ -359,6 +359,25 @@ or any sweep that adds links.
   buttons/voicemail — **attorney review pending**. Placed by an idempotent Node sweep;
   tests **W1–W5** guard it.
 
+## Enquiry copies (hub forms widget)
+
+- Every `form.contact-form` (sales **and** the `/support/` request form, EN + TH) carries
+  `data-enquiry-form`, and its page loads the hub's `forms-widget.js` (site key
+  `quickeasy`) inside `<!-- enquiries -->` markers before `</body>`. The widget posts a
+  **copy** of each sent enquiry to the portal (client-side under *Enquiries from your
+  website*, admin under **Enquiries**). It is **not the delivery** — the relay in
+  `main.js` still sends the email; never remove it. Served from the hub, never copied;
+  no Thai strings file (it has no UI). Unlisted pages (e.g. `/stylesheet/`) carry none.
+- Needs the site's **Enquiries plan switch** on in `/portal/admin/` (off by default →
+  silent 403) and the site linked to the client project. Only the registered origin
+  `https://quickeasysoftware.com` is accepted, so staging/localhost copies are refused.
+- It binds after `main.js`, so `refuse(e)` on an unsent form also stops the copy. It adds
+  a `vc_website` honeypot to each form; `main.js` builds its own payload, so it never
+  reaches the relay. The phone field and the mail opt-in tick arrive as
+  `Label: value` lines in the message.
+- `/popia-policy/` and `/website-policy/` say a copy is kept (attorney review pending).
+  Placed by an idempotent Node sweep; tests **Q1–Q3** guard it.
+
 ## Conventions
 
 - Folder path = live URL (static site served at domain root).
