@@ -690,7 +690,7 @@ test('N1 both search pages exist, are noindex, and carry the results markup', ()
     if (!/id="search-form"/.test(p.html)) errs.push('no search form: ' + r);
     if (!/id="search-results"/.test(p.html)) errs.push('no results container: ' + r);
     if (!/id="search-strings"/.test(p.html)) errs.push('no strings block: ' + r);
-    if (!/src="\/assets\/js\/search-page\.js"/.test(p.html)) errs.push('search-page.js not loaded: ' + r);
+    if (!/src="\/assets\/js\/search-page\.js(\?v=\d+)?"/.test(p.html)) errs.push('search-page.js not loaded: ' + r);
     // Facets, sort and the no-JS note. The script tolerates any of these being
     // absent, so only a test keeps them from quietly disappearing from a page.
     if (!/id="search-filters-list"/.test(p.html)) errs.push('no section facet list: ' + r);
