@@ -46,6 +46,9 @@ Skills are **drafting aids, not legal advice**; flag attorney review for legal p
   Enforced by `test/site-check.mjs` (L1–L3) — never patch it with an adjacent-sibling
   CSS override; fix the page markup.
 - `assets/js/main.js` — vanilla nav, contact-form handler, and pricing currency toggle.
+  Deploy serves `/assets/js/` with a one-year `immutable` cache, so every page loads it
+  as `main.js?v=N`: **bump `N` in all pages (Node/sed sweep) whenever `main.js` changes**,
+  or returning visitors keep the old script.
 - `assets/img/…` — brand/hero/client images (relocated off `wp-content`).
 - Pages are plain HTML using these assets with **root-relative** paths (`/assets/…`, `/pricing/`).
 - **Nav & footer are duplicated in every page** (no build system). Change them with a
