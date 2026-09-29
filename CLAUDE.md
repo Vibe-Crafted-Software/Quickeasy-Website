@@ -345,9 +345,12 @@ or any sweep that adds links.
     marketing pages and posts — **not** on `/contact-us/`, `/support/`, `/documentation/`,
     `/pricing/`, the legal pages or `404`. Its timing/memory rules are the widget's.
   - **Contact-form tick box** (`data-mail-optin` on `form.contact-form`) on every sales
-    form — **not** on the `/support/` request form. The widget adds the checkbox itself,
-    **unticked**; never write it into the page or pre-tick it (POPIA s69: consent must be
-    separate and active).
+    form — **not** on the `/support/` request form. The widget adds the checkbox itself;
+    never write it into the page. **It starts ticked** — on the owner's instruction
+    (2026-09-29), against advice that POPIA s69 treats a pre-ticked box as invalid consent.
+    A MutationObserver at the end of `main.js` ticks it once the widget mounts it; the
+    visitor unticks it to opt out, and double opt-in still applies. The privacy notices
+    say the box starts ticked — keep them in step if this is ever reversed.
 - `main.js`'s contact handler calls `refuse(e)` (`stopImmediatePropagation`) on every path
   where it doesn't send the form, so a ticked box on a refused form subscribes nobody.
   It relies on `main.js` binding before the widget — keep `main.js` a deferred head script.

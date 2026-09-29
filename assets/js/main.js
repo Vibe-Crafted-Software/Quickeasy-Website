@@ -199,3 +199,25 @@
     else window.location.href = link.getAttribute("href");
   });
 })();
+
+/* ============================================
+   Mailing-list opt-in starts ticked. mail-widget.js adds the box itself, after
+   this script has run, so watch each opt-in form and tick the box once it
+   appears. Visitors untick it to stay off the list; double opt-in still applies.
+   Pre-ticking is a business decision taken against POPIA s69 advice — see
+   CLAUDE.md, "Mailing list".
+   ============================================ */
+(function () {
+  if (!window.MutationObserver) return;
+  document.querySelectorAll("form[data-mail-optin]").forEach(function (form) {
+    function tick() {
+      var box = form.querySelector('input[name="vcm_optin"]');
+      if (!box) return false;
+      box.checked = true;
+      return true;
+    }
+    if (tick()) return;
+    var observer = new MutationObserver(function () { if (tick()) observer.disconnect(); });
+    observer.observe(form, { childList: true, subtree: true });
+  });
+})();

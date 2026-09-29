@@ -895,7 +895,7 @@ test('W2 pop-up: on marketing pages and posts, never on contact/support/docs/pri
     return [];
   }));
 
-test('W3 contact-form opt-in: on every sales form, never on support, never pre-ticked in source', () =>
+test('W3 contact-form opt-in: on every sales form, never on support, never hard-coded in source', () =>
   voicePages.flatMap((p) => {
     const errs = [];
     const forms = p.html.match(/<form class="contact-form"[^>]*>/g) || [];
@@ -904,7 +904,7 @@ test('W3 contact-form opt-in: on every sales form, never on support, never pre-t
       if (MAIL_NO_OPTIN.has(p.rel) && has) errs.push('marketing opt-in on the support form: ' + p.rel);
       if (!MAIL_NO_OPTIN.has(p.rel) && !has) errs.push('contact form without the opt-in: ' + p.rel);
     }
-    // The widget adds the box itself, unticked. A box written into the page could be pre-ticked.
+    // The widget adds the box itself (main.js then ticks it). Never hard-code it in the page.
     if (/name="vcm_optin"/.test(p.html)) errs.push('opt-in checkbox hard-coded in source: ' + p.rel);
     return errs;
   }));
