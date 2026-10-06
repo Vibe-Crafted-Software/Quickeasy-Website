@@ -203,7 +203,7 @@
 /* ============================================
    Mailing-list opt-in starts ticked. mail-widget.js adds the box itself, after
    this script has run, so watch each opt-in form and tick the box once it
-   appears. Visitors untick it to stay off the list; double opt-in still applies.
+   appears. Visitors untick it to stay off the list (the hub is single opt-in).
    Pre-ticking is a business decision taken against POPIA s69 advice — see
    CLAUDE.md, "Mailing list".
    ============================================ */

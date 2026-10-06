@@ -342,7 +342,8 @@ or any sweep that adds links.
 - Sign-ups go to the Vibe Crafted Multi-mailer on the same hub and site row
   (`quickeasy`) as click-to-call; the row's **Multi-mailer plan switch** must be on, or
   every sign-up is refused with a 403. Sender name, reply-to and postal address live in
-  the portal (`/portal/mail/`), not here. Every route is **double opt-in**.
+  the portal (`/portal/mail/`), not here. Every route is **single opt-in**: the hub checks the address can receive mail and adds
+  it straight away, with no confirmation email.
 - `mail-widget.js` is served from the hub (never copied), one tag per page inside
   `<!-- mailing-list -->` markers; Thai pages load `mail-i18n-th.js` first. Two routes:
   - **Pop-up** (`data-mail-popup`, with our own title/text; Thai copy on Thai pages) on
@@ -353,7 +354,8 @@ or any sweep that adds links.
     never write it into the page. **It starts ticked** — on the owner's instruction
     (2026-09-29), against advice that POPIA s69 treats a pre-ticked box as invalid consent.
     A MutationObserver at the end of `main.js` ticks it once the widget mounts it; the
-    visitor unticks it to opt out, and double opt-in still applies. The privacy notices
+    visitor unticks it to opt out. With single opt-in there is no confirmation step behind
+    it, so an enquirer who leaves it ticked is subscribed outright. The privacy notices
     say the box starts ticked — keep them in step if this is ever reversed.
 - `main.js`'s contact handler calls `refuse(e)` (`stopImmediatePropagation`) on every path
   where it doesn't send the form, so a ticked box on a refused form subscribes nobody.
@@ -361,8 +363,8 @@ or any sweep that adds links.
 - Theming: `--vcm-accent`/`--vcm-ink` aliases in `:root`, plus `:root .vcm-pop.vcm-pop`
   rules that override the pop-up's OS-preference colours so it follows the theme toggle.
   `.contact-form input` styles exclude checkboxes.
-- `/popia-policy/` and `/website-policy/` describe the list (s69 consent, double opt-in,
-  open/click tracking, operator Vibe Crafted, SES in Singapore, 7-day purge) and the call
+- `/popia-policy/` and `/website-policy/` describe the list (s69 consent, pre-ticked box,
+  single opt-in, open/click tracking, operator Vibe Crafted, SES in Singapore) and the call
   buttons/voicemail — **attorney review pending**. Placed by an idempotent Node sweep;
   tests **W1–W5** guard it.
 
