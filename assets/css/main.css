@@ -531,7 +531,7 @@ code{background:var(--paper);color:var(--red-dk);padding:.15em .4em;border-radiu
    so an unregistered site or a down hub leaves no gap above the form. */
 .call-row{margin:0 0 28px}
 .call-row:not(:has(> :not([hidden]))){display:none}
-.call-row .btn svg{width:18px;height:18px;flex:none}
+.btn[data-voice-call] svg{width:18px;height:18px;flex:none}
 .card .call-row{margin:16px 0 0;justify-content:flex-start}
 
 /* ---- Multi-mailer (hub mail-widget.js) ----------------------------------------

@@ -331,6 +331,12 @@ or any sweep that adds links.
   just above the form (on `/support/`, inside the Telephone card) and `data-voice-fab="off"`;
   pages without one get the widget's floating bubble. `.call-row` is `data-pagefind-ignore`
   and collapses while all its buttons are hidden. The `tel:` / WhatsApp / form routes stay.
+- Every sales page with a hero CTA row also carries a **Call Sales** ghost button at the
+  end of that row (the homepage has one in its closing band too), so a caller can reach
+  it without scrolling to the form. It carries `data-pagefind-ignore` on the button itself,
+  and the widget reveals it only while the list answers. That's every sales page with a
+  hero row **except `/contact-us/`**, which keeps exactly one (V5). Pages that gained one
+  (homepage, `/business-operating-system/`) now have the bubble off.
 - The widget themes through alias tokens (`--accent`, `--text`, `--surface-2`…) at the top
   of `:root` in `main.css`, which only point at the site tokens so dark mode follows.
 - Tag and buttons are placed by an idempotent Node sweep (the same one-off approach as

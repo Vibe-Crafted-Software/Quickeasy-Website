@@ -833,7 +833,9 @@ test('V4 triggers are hidden buttons outside the search index; bubble off where 
     }
     const rows = p.html.match(/<div class="[^"]*call-row[^"]*"[^>]*>/g) || [];
     if (rows.some((r) => !r.includes('data-pagefind-ignore'))) errs.push('call-row not data-pagefind-ignore: ' + p.rel);
-    if (triggers.length && !rows.length) errs.push('trigger outside a .call-row: ' + p.rel);
+    // A trigger sits in a .call-row, or (in a hero/CTA btn-row) carries data-pagefind-ignore itself.
+    const loose = triggers.filter((t) => !t.includes('data-pagefind-ignore'));
+    if (loose.length && !rows.length) errs.push('trigger outside a .call-row and not data-pagefind-ignore: ' + p.rel);
     const t = voiceTags(p.html)[0] || '';
     const fabOff = t.includes('data-voice-fab="off"');
     if (triggers.length && !fabOff) errs.push('in-page button but bubble still on: ' + p.rel);
