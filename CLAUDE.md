@@ -397,6 +397,23 @@ or any sweep that adds links.
 - `/popia-policy/` and `/website-policy/` say a copy is kept (attorney review pending).
   Placed by an idempotent Node sweep; tests **Q1–Q3** guard it.
 
+## Visit statistics (hub analytics)
+
+- First-party analytics from the same hub and site row (`quickeasy`): one `analytics.js`
+  tag per page inside `<!-- statistics -->` markers before `</body>`, served from the hub
+  (never copied), with `data-stats-site="quickeasy"` (this is what switches it to client
+  mode) and `data-stats-privacy="/website-policy/#cookies"` for the banner's Details link.
+  It draws its own consent banner (Thai on `lang="th"` pages, nothing extra to load) and
+  **sends nothing until Accept**. On every visitor page including `/search/` and `404.html`;
+  not on the three unlisted internal pages.
+- Needs the **Statistics** feature added in `/portal/admin/` → Add features (off by default
+  → every hit silently dropped) and the exact origin `https://quickeasysoftware.com`. No
+  country/city on client sites; ids live in this site's `localStorage`, never cookies or IPs.
+- `/website-policy/#cookies` carries the visit-statistics wording and a
+  `ZZConsent.clear()` "Change my cookie choice" button; `/popia-policy/` names the operator
+  and the 14-month retention (attorney review pending). Don't add a second cookie banner.
+  Placed by an idempotent Node sweep; tests **S1–S3** guard it.
+
 ## Conventions
 
 - Folder path = live URL (static site served at domain root).
