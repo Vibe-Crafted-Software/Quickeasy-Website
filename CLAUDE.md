@@ -337,6 +337,10 @@ or any sweep that adds links.
   and the widget reveals it only while the list answers. That's every sales page with a
   hero row **except `/contact-us/`**, which keeps exactly one (V5). Pages that gained one
   (homepage, `/business-operating-system/`) now have the bubble off.
+- **Call Support** sits where an existing customer's problem is: `/support/` has one in its
+  hero row, one in the Telephone card and a `.call-row` above the request form;
+  `/documentation/` has one in the "Need a hand?" card (bubble off). EN + TH. Sales pages
+  never carry a Support button.
 - The widget themes through alias tokens (`--accent`, `--text`, `--surface-2`…) at the top
   of `:root` in `main.css`, which only point at the site tokens so dark mode follows.
 - Tag and buttons are placed by an idempotent Node sweep (the same one-off approach as
