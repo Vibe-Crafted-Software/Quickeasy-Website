@@ -343,8 +343,23 @@ or any sweep that adds links.
   never carry a Support button.
 - The widget themes through alias tokens (`--accent`, `--text`, `--surface-2`…) at the top
   of `:root` in `main.css`, which only point at the site tokens so dark mode follows.
+- **Chat** is part of the same widget and the same two lists — no second tag. **Every call
+  button has a chat twin directly after it**: `<button data-voice-chat hidden>`, same
+  classes, same list, same `data-pagefind-ignore` treatment, with a speech-bubble icon
+  and a "Chat with Sales" / "Chat with Support" label (the widget rewrites the text; Thai
+  comes from the same `voice-i18n-th.js`). Add or remove the pair together — V6 fails on
+  a call button without its twin. Unlike a call button, the chat button stays visible
+  whenever the list has answered: with nobody on duty it becomes a message box that asks
+  for an email address. The bubble's own Chat button, "Chat instead" in the call panel
+  and the "We're online now" card come from the tag alone and are left on.
+- `main.css` carries `[data-voice-call][hidden],[data-voice-chat][hidden]{display:none!important}`
+  because `.btn` sets `display`, which otherwise beats the `hidden` attribute and shows
+  the buttons before the hub has answered. Don't remove it.
+- Chats are **saved** on the hub, and the visitor's browser keeps a `vw-chat:quickeasy`
+  key in `localStorage` for 14 days. `/popia-policy/` and `/website-policy/#cookies` say
+  so (attorney review pending) — keep them in step.
 - Tag and buttons are placed by an idempotent Node sweep (the same one-off approach as
-  nav/footer); tests **V1–V5** guard the wiring. Never add this origin to the hub's
+  nav/footer); tests **V1–V6** guard the wiring. Never add this origin to the hub's
   `ALLOWED_ORIGINS` — registering the site is the whole grant.
 
 ## Mailing list (hub Multi-mailer)

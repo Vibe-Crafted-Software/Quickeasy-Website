@@ -863,6 +863,37 @@ test('V5 contact-us rings sales only; support keeps its tel: fallback', () => {
   return errs;
 });
 
+test('V6 every call button has a hidden chat twin beside it, on the same list', () => {
+  const errs = [];
+  const tag = (kind) => new RegExp(`<[a-z]+[^>]*\\bdata-voice-${kind}\\b[^>]*>`, 'g');
+  const team = (t) => (t.match(/data-voice-team="([^"]*)"/) || [])[1] || '';
+  for (const p of voicePages) {
+    const chats = p.html.match(tag('chat')) || [];
+    for (const t of chats) {
+      if (!/^<button\b/.test(t) || !/type="button"/.test(t)) errs.push('chat trigger is not a <button type="button">: ' + p.rel);
+      if (!/\shidden\b/.test(t)) errs.push('chat trigger not hidden in source: ' + p.rel);
+    }
+    if (chats.length && !voiceTags(p.html).length) errs.push('chat trigger but no widget: ' + p.rel);
+    // The twin follows its call button directly, so the pair stays in one row.
+    const pairs = [...p.html.matchAll(/(<button[^>]*\bdata-voice-call\b[^>]*>)[\s\S]*?<\/button>\s*(<button[^>]*>)?/g)];
+    for (const [, call, next] of pairs) {
+      if (!next || !/\bdata-voice-chat\b/.test(next)) { errs.push('call button without a chat twin: ' + p.rel); continue; }
+      if (team(call) !== team(next)) errs.push('chat twin on a different list: ' + p.rel);
+      if (call.includes('data-pagefind-ignore') !== next.includes('data-pagefind-ignore'))
+        errs.push('chat twin indexed differently from its call button: ' + p.rel);
+    }
+    if (chats.length !== pairs.length) errs.push(`${chats.length} chat triggers for ${pairs.length} call buttons: ${p.rel}`);
+  }
+  const css = read(path.join(ROOT, 'assets/css/main.css'));
+  if (!css.includes('[data-voice-call][hidden],[data-voice-chat][hidden]{display:none!important}'))
+    errs.push('main.css lets .btn override hidden on the call/chat triggers');
+  for (const r of ['popia-policy/index.html', 'website-policy/index.html']) {
+    const l = get(r);
+    if (!l || !/\bchat\b/i.test(l.html)) errs.push(r + ': does not say chats are saved');
+  }
+  return errs;
+});
+
 /* =========================================================================
    W. Multi-mailer sign-ups (the hub's mail-widget.js)
    ========================================================================= */

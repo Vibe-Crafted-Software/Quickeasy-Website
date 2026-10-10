@@ -525,13 +525,15 @@ code{background:var(--paper);color:var(--red-dk);padding:.15em .4em;border-radiu
 .search-result__excerpt{margin:0;font-size:14.5px;color:var(--body);line-height:1.6}
 .search-result__excerpt mark{background:var(--red-wash);color:var(--red-dk);font-weight:700;padding:.1em .3em;border-radius:3px}
 
-/* ---- click-to-call (hub widget) ----------------------------------------------
+/* ---- click-to-call and chat (hub widget) --------------------------------------
    Triggers ship `hidden`; voice-widget.js reveals them only when this browser can
    call and the list answered. The row collapses when every button in it is hidden,
-   so an unregistered site or a down hub leaves no gap above the form. */
+   so an unregistered site or a down hub leaves no gap above the form.
+   .btn sets display, which would beat the hidden attribute — hence the !important. */
+[data-voice-call][hidden],[data-voice-chat][hidden]{display:none!important}
 .call-row{margin:0 0 28px}
 .call-row:not(:has(> :not([hidden]))){display:none}
-.btn[data-voice-call] svg{width:18px;height:18px;flex:none}
+.btn[data-voice-call] svg,.btn[data-voice-chat] svg{width:18px;height:18px;flex:none}
 .card .call-row{margin:16px 0 0;justify-content:flex-start}
 
 /* ---- Multi-mailer (hub mail-widget.js) ----------------------------------------
